@@ -2,6 +2,7 @@ package fr.ul.rollingball;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.utils.Timer;
+import fr.ul.rollingball.dataFactories.SoundFactory;
 import fr.ul.rollingball.views.GameScreen;
 import fr.ul.rollingball.views.SplashScreen;
 
@@ -18,6 +19,7 @@ public class RollingBall extends Game {
 		splashScreen = new SplashScreen();
 		setScreen(splashScreen);
 		Timer timer = new Timer();
+		SoundFactory.getInstance().playSound(10);
 		Timer.Task task = new Timer.Task() {
 			@Override
 			public void run() {
