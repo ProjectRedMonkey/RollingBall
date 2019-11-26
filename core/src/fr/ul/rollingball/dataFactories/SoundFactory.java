@@ -1,13 +1,14 @@
 package fr.ul.rollingball.dataFactories;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class SoundFactory {
-    private Sound sound;
+    private Music sound;
 
     private SoundFactory(){
-        sound = Gdx.audio.newSound(Gdx.files.internal("sounds/victoire.mp3"));
+        sound = Gdx.audio.newMusic(Gdx.files.internal("sounds/victoire.mp3"));
     }
 
     /**
@@ -20,6 +21,7 @@ public class SoundFactory {
     }
 
     public void playSound(float volume) {
-        sound.play(volume);
+        sound.setVolume(volume);
+        sound.play();
     }
 }
