@@ -5,6 +5,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import fr.ul.rollingball.dataFactories.TextureFactory;
 import fr.ul.rollingball.models.GameWorld;
 
@@ -35,13 +36,19 @@ public class GameScreen extends ScreenAdapter {
         affichageJeu.draw(TextureFactory.getInstance().getTexturePiste(), 0, 0,gameWorld.getWidth(),gameWorld.getHeight());
         affichageJeu.end();
         gameWorld.draw(affichageJeu);
+        
+        /*
+        Utilisé pour voir la zone d'action des body
+        Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
+        box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
+         */
     }
 
     /**
      * Actualise graphiquement le monde, appelé dans GameScreen avant l'affichage
      */
     public void update(){
-        Vector2 force = new Vector2((Gdx.input.getAccelerometerY()*5f),-(Gdx.input.getAccelerometerX()*5f));
+        Vector2 force = new Vector2((Gdx.input.getAccelerometerY()*4f),-(Gdx.input.getAccelerometerX()*4f));
         gameWorld.getBall2D().applyForce(force);
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
     }

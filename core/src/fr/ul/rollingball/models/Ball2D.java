@@ -22,8 +22,8 @@ public class Ball2D extends Ball {
     public void draw(SpriteBatch spriteBatch){
         spriteBatch.begin();
         spriteBatch.draw(TextureFactory.getInstance().getTextureBille2D()
-                        ,this.getPosition().x, this.getPosition().y,
-                    (float)getRayon(),(float)getRayon());
+                        ,this.getPosition().x-getRayon(), this.getPosition().y-getRayon(),
+                    (float)getRayon()*2,(float)getRayon()*2);
         spriteBatch.end();
     }
 }

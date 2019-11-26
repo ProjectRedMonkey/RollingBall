@@ -4,9 +4,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Ball {
-    private double rayonGrand = 80/50.0f;
+    private float rayonGrand = 80/50.0f;
     private double rayonPetit = 80/100.0f;
-    private double rayon;
+    private float rayon;
     private Body body;
 
     /**
@@ -18,14 +18,18 @@ public abstract class Ball {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(position);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
+
         body = gameWorld.getWorld().createBody(bodyDef);
         rayon = rayonGrand;
+
         CircleShape circle = new CircleShape();
         circle.setRadius((float) rayon);
+
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = 1;
         fixtureDef.restitution = (float) 0.25;
+
         body.createFixture(fixtureDef);
 
         circle.dispose();
@@ -42,7 +46,7 @@ public abstract class Ball {
     /**
      * @return le rayon de la bille
      */
-    public double getRayon(){
+    public float getRayon(){
         return rayon;
     }
 

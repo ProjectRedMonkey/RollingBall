@@ -12,7 +12,7 @@ public class TextureFactory {
     private Texture pastilleNormale;
 
     /**
-     * Récupère les textures
+     * Regroupe toutes les textures
      */
     private TextureFactory(){
         intro = new Texture(Gdx.files.internal("images/Intro.jpg"));

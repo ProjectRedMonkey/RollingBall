@@ -5,10 +5,15 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class SoundFactory {
-    private Music sound;
+    private Music victoire;
+    private Music pastille;
 
+    /**
+     * Regroupe tous les sons
+     */
     private SoundFactory(){
-        sound = Gdx.audio.newMusic(Gdx.files.internal("sounds/victoire.mp3"));
+        victoire = Gdx.audio.newMusic(Gdx.files.internal("sounds/victoire.mp3"));
+        pastille = Gdx.audio.newMusic(Gdx.files.internal("sounds/pastille.wav"));
     }
 
     /**
@@ -20,8 +25,21 @@ public class SoundFactory {
         return INSTANCE;
     }
 
-    public void playSound(float volume) {
-        sound.setVolume(volume/100);
-        sound.play();
+    /**
+     * Permets de jouer le thème "victoire"
+     * @param volume volume choisi
+     */
+    public void playVictoire(float volume) {
+        victoire.setVolume(volume/100);
+        victoire.play();
+    }
+
+    /**
+     * Bruit lorsque l'on ramasse une pastille normale
+     * @param volume volume choisi
+     */
+    public void playPastille(float volume){
+        pastille.setVolume(volume);
+        pastille.play();
     }
 }
