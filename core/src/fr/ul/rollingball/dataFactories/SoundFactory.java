@@ -21,7 +21,7 @@ public class SoundFactory {
     }
 
     public void playSound(float volume) {
-        sound.setVolume(volume);
+        sound.setVolume(volume/100);
         sound.play();
     }
 }
