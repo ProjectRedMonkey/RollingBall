@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Pastille {
-    private static int rayon = 1;
+    private static float rayon = 0.7f;
     private GameWorld gameWorld;
     private Body body;
     private boolean ramassee;

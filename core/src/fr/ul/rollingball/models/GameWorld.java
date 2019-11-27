@@ -2,6 +2,8 @@ package fr.ul.rollingball.models;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ public class GameWorld {
     private Ball2D ball2D;
     private World world;
     private ArrayList<Pastille> listePastilles;
+    private ContactListener contact;
 
     /**
      * Représente le monde dans lequel on joue
@@ -47,6 +50,10 @@ public class GameWorld {
         for(Pastille pastille : listePastilles){
             pastille.draw(spriteBatch);
         }
+    }
+
+    public void beginContact(Contact contact){
+
     }
 
     /**

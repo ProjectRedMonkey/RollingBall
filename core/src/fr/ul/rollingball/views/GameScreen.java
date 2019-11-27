@@ -21,7 +21,8 @@ public class GameScreen extends ScreenAdapter {
         affichageJeu = new SpriteBatch();
         gameWorld = new GameWorld();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,gameWorld.getWidth(),gameWorld.getHeight());
+        camera.setToOrtho(false,gameWorld.getWidth(),gameWorld.getWidth()*Gdx.graphics.getHeight()/Gdx.graphics.getWidth());
+        //camera.viewportHeight = gameWorld.getWidth();
         camera.update();
     }
 

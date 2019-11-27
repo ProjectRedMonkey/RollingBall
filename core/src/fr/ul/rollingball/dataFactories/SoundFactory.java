@@ -2,7 +2,6 @@ package fr.ul.rollingball.dataFactories;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.audio.Sound;
 
 public class SoundFactory {
     private Music victoire;
