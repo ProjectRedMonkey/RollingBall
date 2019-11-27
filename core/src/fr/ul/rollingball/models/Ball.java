@@ -8,9 +8,10 @@ public abstract class Ball {
     private double rayonPetit = 80/100.0f;
     private float rayon;
     private Body body;
+    private FixtureDef fixtureDef;
 
     /**
-     * Classe abstraire utilisée pour créer des billes en 2D et 3D
+     * Classe abstraire utilisÃ©e pour crÃ©er des billes en 2D et 3D
      * @param gameWorld monde de la bille
      * @param position position de la bille
      */
@@ -25,7 +26,7 @@ public abstract class Ball {
         CircleShape circle = new CircleShape();
         circle.setRadius((float) rayon);
 
-        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = 1;
         fixtureDef.restitution = (float) 0.25;
@@ -36,8 +37,8 @@ public abstract class Ball {
     }
 
     /**
-     * Applique la gravité à notre bille
-     * @param vector gravité à appliquer
+     * Applique la gravitÃ© Ã  notre bille
+     * @param vector gravitÃ© Ã  appliquer
      */
     public void applyForce(Vector2 vector){
         body.setLinearVelocity(vector);
@@ -56,4 +57,12 @@ public abstract class Ball {
     public Vector2 getPosition(){
         return body.getPosition();
     }
+
+    /**
+     * @return le body de la bille, utilisÃ© pour les collisions
+     */
+    public Body getBody() {
+        return body;
+    }
 }
+

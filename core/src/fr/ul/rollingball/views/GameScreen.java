@@ -22,7 +22,6 @@ public class GameScreen extends ScreenAdapter {
         gameWorld = new GameWorld();
         camera = new OrthographicCamera();
         camera.setToOrtho(false,gameWorld.getWidth(),gameWorld.getWidth()*Gdx.graphics.getHeight()/Gdx.graphics.getWidth());
-        //camera.viewportHeight = gameWorld.getWidth();
         camera.update();
     }
 
@@ -37,12 +36,12 @@ public class GameScreen extends ScreenAdapter {
         affichageJeu.draw(TextureFactory.getInstance().getTexturePiste(), 0, 0,gameWorld.getWidth(),gameWorld.getHeight());
         affichageJeu.end();
         gameWorld.draw(affichageJeu);
-        
+
         /*
-        Utilisé pour voir la zone d'action des body
+        //UtilisÃ© pour voir la hitbox des bodies
         Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
-         */
+        */
     }
 
     /**
@@ -52,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
         Vector2 force = new Vector2((Gdx.input.getAccelerometerY()*4f),-(Gdx.input.getAccelerometerX()*4f));
         gameWorld.getBall2D().applyForce(force);
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
+        gameWorld.updatePastilles();
     }
 
     /**

@@ -12,7 +12,7 @@ public abstract class Pastille {
     private Vector2 position;
 
     /**
-     * Petite boule représentant un bonus à ramasser
+     * Petite boule reprÃ©sentant un bonus Ã  ramasser
      */
     public Pastille(Vector2 position, GameWorld game){
         this.gameWorld = game;
@@ -29,6 +29,7 @@ public abstract class Pastille {
         fixtureDef.density = 1;
         fixtureDef.restitution = (float) 0.25;
         body.createFixture(fixtureDef);
+        body.setUserData(this);
 
         circle.dispose();
     }
@@ -55,14 +56,14 @@ public abstract class Pastille {
     }
 
     /**
-     * @return true si la pastille a été ramassée
+     * @return true si la pastille a Ã©tÃ© ramassÃ©e
      */
     public boolean getPicked(){
         return ramassee;
     }
 
     /**
-     * Permets de dire si la pastille a été ramassée
+     * Permets de dire si la pastille a Ã©tÃ© ramassÃ©e
      * @param picked ramassée ou non
      */
     public void setPicked(boolean picked) {
