@@ -29,7 +29,7 @@ public class SoundFactory {
     }
 
     /**
-     * Permets de jouer le thÃ¨me "victoire"
+     * Permets de jouer le thème "victoire"
      * @param volume volume choisi
      */
     public void playVictoire(float volume) {

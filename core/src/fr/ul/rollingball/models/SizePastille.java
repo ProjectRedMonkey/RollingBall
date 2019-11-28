@@ -7,7 +7,7 @@ import fr.ul.rollingball.dataFactories.TextureFactory;
 
 public class SizePastille extends Pastille {
     /**
-     * Pastille donnant un temps supplÃ©mentaire
+     * Pastille donnant un temps supplémentaire
      * @param position position de la pastille
      * @param game monde dans lequel on joue
      */

@@ -20,7 +20,7 @@ public class Maze {
     private ArrayList<Body> listeBriques;
 
     /**
-     * ReprÃ©sente un labyrinthe dans lequel se dÃ©place la bille
+     * Représente un labyrinthe dans lequel se déplace la bille
      * @param gameWorld le monde dans lequel on joue
      */
     public Maze(GameWorld gameWorld){
@@ -41,7 +41,7 @@ public class Maze {
     }
 
     /**
-     * DÃ©truit les images internes
+     * Détruit les images internes
      */
     public void dispose(){
         textureLabyrinthe.dispose();
@@ -50,10 +50,10 @@ public class Maze {
 
     /**
      * Charge un nouveau labyrinthe
-     * @param listePastilles pastilles Ã  ajouter au nouveau labyrinthe
+     * @param listePastilles pastilles à  ajouter au nouveau labyrinthe
      */
     public void loadLaby(ArrayList<Pastille> listePastilles){
-        //On dÃ©truit toutes les briques
+        //On détruit toutes les briques
         for (Body brique: listeBriques) {
             gameWorld.getWorld().destroyBody(brique);
         }
@@ -64,7 +64,7 @@ public class Maze {
     }
 
     /**
-     * RÃ©cupÃ¨re les pastilles, murs et la bille dans un masque
+     * Récupère les pastilles, murs et la bille dans un masque
      * @param masque du labyrinthe à  utiliser
      */
     private void readObjects(Texture masque, ArrayList<Pastille> listePastilles){

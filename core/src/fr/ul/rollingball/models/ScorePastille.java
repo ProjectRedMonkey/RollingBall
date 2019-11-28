@@ -17,7 +17,7 @@ public class ScorePastille extends Pastille {
 
     /**
      * Dessine la pastille
-     * @param spriteBatch sur lequel on a dÃ©jÃ  la bille
+     * @param spriteBatch sur lequel on a déjà  la bille
      */
     @Override
     public void draw(SpriteBatch spriteBatch) {

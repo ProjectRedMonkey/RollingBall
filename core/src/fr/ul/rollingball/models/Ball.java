@@ -11,7 +11,7 @@ public abstract class Ball {
     private FixtureDef fixtureDef;
 
     /**
-     * Classe abstraire utilisÃ©e pour crÃ©er des billes en 2D et 3D
+     * Classe abstraire utilisée pour créer des billes en 2D et 3D
      * @param gameWorld monde de la bille
      * @param position position de la bille
      */
@@ -37,8 +37,8 @@ public abstract class Ball {
     }
 
     /**
-     * Applique la gravitÃ© Ã  notre bille
-     * @param vector gravitÃ© Ã  appliquer
+     * Applique la gravité à  notre bille
+     * @param vector gravité à  appliquer
      */
     public void applyForce(Vector2 vector){
         body.setLinearVelocity(vector);
@@ -59,7 +59,7 @@ public abstract class Ball {
     }
 
     /**
-     * @return le body de la bille, utilisÃ© pour les collisions
+     * @return le body de la bille, utilisée pour les collisions
      */
     public Body getBody() {
         return body;

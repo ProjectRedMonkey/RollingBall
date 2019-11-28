@@ -12,7 +12,7 @@ public abstract class Pastille {
     private Vector2 position;
 
     /**
-     * Petite boule reprÃ©sentant un bonus Ã  ramasser
+     * Petite boule représentant un bonus à  ramasser
      */
     public Pastille(Vector2 position, GameWorld game){
         this.gameWorld = game;
@@ -56,14 +56,14 @@ public abstract class Pastille {
     }
 
     /**
-     * @return true si la pastille a Ã©tÃ© ramassÃ©e
+     * @return true si la pastille a été ramassée
      */
     public boolean getPicked(){
         return ramassee;
     }
 
     /**
-     * Permets de dire si la pastille a Ã©tÃ© ramassÃ©e
+     * Permets de dire si la pastille a été ramassée
      * @param picked ramassée ou non
      */
     public void setPicked(boolean picked) {

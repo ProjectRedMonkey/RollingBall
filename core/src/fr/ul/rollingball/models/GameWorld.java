@@ -17,7 +17,7 @@ public class GameWorld {
     private Maze maze;
 
     /**
-     * ReprÃ©sente le monde dans lequel on joue
+     * Représente le monde dans lequel on joue
      */
     public GameWorld(){
         world = new World(new Vector2(0, 0), true);
@@ -64,7 +64,7 @@ public class GameWorld {
     }
 
     /**
-     * @return le World crÃ©Ã© pour le jeu
+     * @return le World créé pour le jeu
      */
     public World getWorld() {
         return world;
