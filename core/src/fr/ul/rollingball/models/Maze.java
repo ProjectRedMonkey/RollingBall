@@ -72,17 +72,13 @@ public class Maze {
             masque.getTextureData().prepare();
         }
         pixmap = masque.getTextureData().consumePixmap();
-        Color color = new Color();
-        for(int i = 0 ; i < gameWorld.getWidth() ; i++){
-            for(int j = 0 ; j < gameWorld.getHeight() ; j++){
-                int val = pixmap.getPixel(i, j);
-                Color.rgba8888ToColor(color, val);
-                int R = (int)(color.r * 255f);
-                int G = (int)(color.g * 255f);
-                int B = (int)(color.b * 255f);
-                int A = (int)(color.a * 255f);
-                int niveauGris = (R+G+B)/3;
-                //System.out.println(niveauGris);
+        int niveauGris;
+        for(int i = 0 ; i < masque.getWidth() ; i++){
+            for(int j = 0 ; j < masque.getHeight() ; j++){
+                niveauGris = pixmap.getPixel(i, j)&255;
+                if(niveauGris != 0 && niveauGris != 255) {
+                    System.out.println(niveauGris);
+                }
             }
         }
     }
