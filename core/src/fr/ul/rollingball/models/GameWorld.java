@@ -21,14 +21,10 @@ public class GameWorld {
      */
     public GameWorld(){
         world = new World(new Vector2(0, 0), true);
-        ball2D = new Ball2D(this, new Vector2((float)width/2.0f, (float)height/2.0f));
+        maze = new Maze(this);
         listePastilles  = new ArrayList<>();
-        listePastilles.add(new ScorePastille(new Vector2(width/2+10,height/2+10), this));
-        listePastilles.add(new ScorePastille(new Vector2(width/2-10,height/2-10), this));
-        listePastilles.add(new SizePastille(new Vector2(10,15), this));
-        listePastilles.add(new SizePastille(new Vector2(width/2-3,height/2+12), this));
-        listePastilles.add(new TimePastille(new Vector2(width/2+14,height/2-13), this));
-        listePastilles.add(new TimePastille(new Vector2(width/2+17,height/2+13), this));
+        maze.loadLaby(listePastilles);
+        ball2D = new Ball2D(this, maze.getPositionInitialeBille());
         contact = new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
@@ -59,8 +55,6 @@ public class GameWorld {
             }
         };
         world.setContactListener(contact);
-        maze = new Maze(this);
-        maze.loadLaby(listePastilles);
     }
 
     /**
