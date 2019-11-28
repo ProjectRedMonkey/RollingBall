@@ -21,7 +21,7 @@ public class GameScreen extends ScreenAdapter {
         affichageJeu = new SpriteBatch();
         gameWorld = new GameWorld();
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,gameWorld.getWidth(),gameWorld.getWidth()*Gdx.graphics.getHeight()/Gdx.graphics.getWidth());
+        camera.setToOrtho(false, gameWorld.getWidth(),gameWorld.getHeight());
         camera.update();
     }
 
@@ -32,16 +32,12 @@ public class GameScreen extends ScreenAdapter {
     public void render (float delta) {
         update();
         affichageJeu.setProjectionMatrix(camera.combined);
-        affichageJeu.begin();
-        affichageJeu.draw(TextureFactory.getInstance().getTexturePiste(), 0, 0,gameWorld.getWidth(),gameWorld.getHeight());
-        affichageJeu.end();
         gameWorld.draw(affichageJeu);
-
         /*
         //Utilisé pour voir la hitbox des bodies
         Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
-         */
+        */
 
     }
 

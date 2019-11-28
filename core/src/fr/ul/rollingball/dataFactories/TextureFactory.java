@@ -10,6 +10,7 @@ public class TextureFactory {
     private Texture pastilleTemps;
     private Texture pastilleTaille;
     private Texture pastilleNormale;
+    private Texture murs;
 
     /**
      * Regroupe toutes les textures
@@ -21,6 +22,7 @@ public class TextureFactory {
         pastilleTemps = new Texture(Gdx.files.internal("images/pastilleTemps.bmp"));
         pastilleTaille = new Texture(Gdx.files.internal("images/pastilleTaille.bmp"));
         pastilleNormale = new Texture(Gdx.files.internal("images/pastilleNormale.bmp"));
+        murs = new Texture(Gdx.files.internal("images/Murs.jpg"));
     }
 
     /**
@@ -72,5 +74,12 @@ public class TextureFactory {
      */
     public Texture getPastilleTemps() {
         return pastilleTemps;
+    }
+
+    /**
+     * @return la textures des murs du labyrinthe
+     */
+    public Texture getMurs(){
+        return murs;
     }
 }

@@ -3,6 +3,7 @@ package fr.ul.rollingball.models;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.rollingball.dataFactories.TextureFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -76,6 +77,7 @@ public class GameWorld {
      * @param spriteBatch spriteBatch de GameScreen
      */
     public void draw(SpriteBatch spriteBatch){
+        maze.draw(spriteBatch);
         ball2D.draw(spriteBatch);
         for(Pastille pastille : listePastilles){
             pastille.draw(spriteBatch);

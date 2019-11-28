@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.rollingball.dataFactories.TextureFactory;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class Maze {
     private int numLabyrinthe;
     private Pixmap pixmap;
     private Texture textureLabyrinthe;
+    private Texture decor;
     private Vector2 positionInitialeBille;
     private ArrayList<Body> listeBriques;
     private boolean billeTrouvee = false;
@@ -36,7 +38,8 @@ public class Maze {
      */
     public void draw(SpriteBatch spriteBatch){
         spriteBatch.begin();
-        spriteBatch.draw(textureLabyrinthe,0,0);
+        spriteBatch.draw(TextureFactory.getInstance().getMurs(),0,0,gameWorld.getWidth(),gameWorld.getHeight());
+        spriteBatch.draw(decor, 0, 0, gameWorld.getWidth(), gameWorld.getHeight());
         spriteBatch.end();
     }
 
@@ -58,9 +61,9 @@ public class Maze {
             gameWorld.getWorld().destroyBody(brique);
         }
 
-        Texture masque = new Texture(Gdx.files.internal("images/Laby"+numLabyrinthe+".png"));
-        readObjects(masque, listePastilles);
-
+        textureLabyrinthe = new Texture(Gdx.files.internal("images/Laby"+numLabyrinthe+".png"));
+        readObjects(textureLabyrinthe, listePastilles);
+        buildTexLaby();
     }
 
     /**
@@ -133,6 +136,7 @@ public class Maze {
             bodyDef.type = BodyDef.BodyType.StaticBody;
 
             Body body = gameWorld.getWorld().createBody(bodyDef);
+            body.setUserData("M");
 
             CircleShape circle = new CircleShape();
             circle.setRadius(0.1f);
@@ -146,6 +150,36 @@ public class Maze {
             listeBriques.add(body);
             circle.dispose();
         }
+    }
+
+    /**
+     * Construit graphiquement le labyrinthe
+     */
+    public void buildTexLaby(){
+        if (!textureLabyrinthe.getTextureData().isPrepared()) {
+            textureLabyrinthe.getTextureData().prepare();
+        }
+        Pixmap pixmapLaby = textureLabyrinthe.getTextureData().consumePixmap();
+
+        Texture piste = TextureFactory.getInstance().getTexturePiste();
+        if (!piste.getTextureData().isPrepared()) {
+            piste.getTextureData().prepare();
+        }
+        Pixmap pixmapPiste = piste.getTextureData().consumePixmap();
+        int niveauGris;
+
+        for(int i = 0 ; i < pixmapLaby.getWidth() ; i++) {
+            for (int j = 0; j < pixmapLaby.getHeight(); j++) {
+                niveauGris = pixmapLaby.getPixel(i, j) & 255;
+                if(niveauGris == 255){
+                    pixmapLaby.setColor(pixmapPiste.getPixel(i,j));
+                    pixmapLaby.drawPixel(i, j);
+                }
+            }
+        }
+        decor = new Texture(pixmapLaby);
+        pixmapLaby.dispose();
+        pixmapPiste.dispose();
     }
 
     /**
