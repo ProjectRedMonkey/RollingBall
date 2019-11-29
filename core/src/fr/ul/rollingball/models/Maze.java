@@ -38,7 +38,7 @@ public class Maze {
      */
     public void draw(SpriteBatch spriteBatch){
         spriteBatch.begin();
-        spriteBatch.draw(TextureFactory.getInstance().getMurs(),0,0,gameWorld.getWidth(),gameWorld.getHeight());
+        spriteBatch.draw(TextureFactory.getInstance().getMurs(),0,0, gameWorld.getWidth(),gameWorld.getHeight());
         spriteBatch.draw(decor, 0, 0, gameWorld.getWidth(), gameWorld.getHeight());
         spriteBatch.end();
     }
@@ -61,7 +61,7 @@ public class Maze {
             gameWorld.getWorld().destroyBody(brique);
         }
 
-        textureLabyrinthe = new Texture(Gdx.files.internal("images/Laby"+numLabyrinthe+".png"));
+        textureLabyrinthe = TextureFactory.getInstance().getLaby(numLabyrinthe);
         readObjects(textureLabyrinthe, listePastilles);
         buildTexLaby();
     }
@@ -76,8 +76,8 @@ public class Maze {
         }
         pixmap = masque.getTextureData().consumePixmap();
         int niveauGris;
-        for(int i = 0 ; i < masque.getWidth() ; i++){
-            for(int j = 0 ; j < masque.getHeight() ; j++){
+        for(int i = 0 ; i < pixmap.getWidth() ; i++){
+            for(int j = 0 ; j< pixmap.getHeight() ; j++){
                 niveauGris = pixmap.getPixel(i, j)&255;
 
                 //Mur
@@ -86,32 +86,27 @@ public class Maze {
                 }
                 //Bille
                 else if(niveauGris == 100 && !billeTrouvee){
-                    positionInitialeBille = new Vector2(i/(masque.getWidth()/gameWorld.getWidth()),gameWorld.getHeight()-(j/(masque.getHeight()/gameWorld.getHeight())));
+                    positionInitialeBille = new Vector2(j/(12.8f),gameWorld.getHeight()-(i/(12f)));
                     billeTrouvee = true;
-                    System.out.println(positionInitialeBille);
                 }
                 //Pastille normale
                 else if(niveauGris == 128){
-                    listePastilles.add(new ScorePastille(new Vector2(i/(masque.getWidth()/gameWorld.getWidth()),gameWorld.getHeight()-j/(masque.getHeight()/gameWorld.getHeight())),gameWorld));
+                    listePastilles.add(new ScorePastille(new Vector2(i/12.8f,gameWorld.getHeight()-(j/(12f))),gameWorld));
                     //On colorie en blanc le reste de la pastille pour ne pas la compter plusieurs fois
                     pixmap.setColor(Color.WHITE);
                     pixmap.fillCircle(i+5, j+5, 9);
                 }
                 //Pastille taille
                 else if(niveauGris == 200){
-                    listePastilles.add(new SizePastille(new Vector2(i/(masque.getWidth()/gameWorld.getWidth()),gameWorld.getHeight()-j/(masque.getHeight()/gameWorld.getHeight())),gameWorld));
+                    listePastilles.add(new SizePastille(new Vector2(i/(12.8f),gameWorld.getHeight()-j/12f),gameWorld));
                     pixmap.setColor(Color.WHITE);
                     pixmap.fillCircle(i+5, j+5, 9);
                 }
                 //Pastille temps
                 else if(niveauGris == 225){
-                    listePastilles.add(new TimePastille(new Vector2(i/(masque.getWidth()/gameWorld.getWidth()),gameWorld.getHeight()-j/(masque.getHeight()/gameWorld.getHeight())),gameWorld));
+                    listePastilles.add(new TimePastille(new Vector2(i/(12.8f),gameWorld.getHeight()-j/(12f)),gameWorld));
                     pixmap.setColor(Color.WHITE);
                     pixmap.fillCircle(i+5, j+5, 9);
-                }
-                //Vide
-                else if(niveauGris == 255){
-
                 }
             }
         }
@@ -132,7 +127,7 @@ public class Maze {
         //Si l'un des voisins du mur est vide
         if(couleurVoisin1 == 255 || couleurVoisin2 == 255 || couleurVoisin3 == 255 || couleurVoisin4 == 255){
             BodyDef bodyDef = new BodyDef();
-            bodyDef.position.set(i/(pixmap.getWidth()/gameWorld.getWidth()),gameWorld.getHeight()-j/(pixmap.getHeight()/gameWorld.getHeight()));
+            bodyDef.position.set((float) i/(12.8f),gameWorld.getHeight()-j/12f);
             bodyDef.type = BodyDef.BodyType.StaticBody;
 
             Body body = gameWorld.getWorld().createBody(bodyDef);
@@ -166,18 +161,26 @@ public class Maze {
             piste.getTextureData().prepare();
         }
         Pixmap pixmapPiste = piste.getTextureData().consumePixmap();
+
+        Texture murs= TextureFactory.getInstance().getMurs();
+        if (!murs.getTextureData().isPrepared()) {
+            murs.getTextureData().prepare();
+        }
+        Pixmap pixmapDecor = murs.getTextureData().consumePixmap();
         int niveauGris;
 
+        //Parcours le labyrinthe pour récupérer les murs et le vide
         for(int i = 0 ; i < pixmapLaby.getWidth() ; i++) {
             for (int j = 0; j < pixmapLaby.getHeight(); j++) {
-                niveauGris = pixmapLaby.getPixel(i, j) & 255;
+                niveauGris = pixmapLaby.getPixel(i, j)&255;
+                //Si c'est du vide
                 if(niveauGris == 255){
-                    pixmapLaby.setColor(pixmapPiste.getPixel(i,j));
-                    pixmapLaby.drawPixel(i, j);
+                    pixmapDecor.setColor(pixmapPiste.getPixel(i,j));
+                    pixmapDecor.drawPixel(i, j);
                 }
             }
         }
-        decor = new Texture(pixmapLaby);
+        this.decor = new Texture(pixmapDecor);
         pixmapLaby.dispose();
         pixmapPiste.dispose();
     }

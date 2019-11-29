@@ -11,6 +11,7 @@ public class TextureFactory {
     private Texture pastilleTaille;
     private Texture pastilleNormale;
     private Texture murs;
+    private Texture laby;
 
     /**
      * Regroupe toutes les textures
@@ -81,5 +82,10 @@ public class TextureFactory {
      */
     public Texture getMurs(){
         return murs;
+    }
+
+    public Texture getLaby(int num) {
+        laby = new Texture(Gdx.files.internal("images/Laby"+num+".png"));
+        return laby;
     }
 }

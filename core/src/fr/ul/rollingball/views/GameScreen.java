@@ -33,11 +33,15 @@ public class GameScreen extends ScreenAdapter {
         update();
         affichageJeu.setProjectionMatrix(camera.combined);
         gameWorld.draw(affichageJeu);
+
         /*
         //Utilisé pour voir la hitbox des bodies
         Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
-        */
+        
+         */
+
+
 
     }
 

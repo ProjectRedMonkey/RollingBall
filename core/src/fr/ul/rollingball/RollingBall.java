@@ -19,7 +19,6 @@ public class RollingBall extends Game {
 		splashScreen = new SplashScreen();
 		setScreen(splashScreen);
 		Timer timer = new Timer();
-		SoundFactory.getInstance().playVictoire(10);
 		Timer.Task task = new Timer.Task() {
 			@Override
 			public void run() {
