@@ -168,14 +168,18 @@ public class Maze {
         }
         Pixmap pixmapDecor = murs.getTextureData().consumePixmap();
         int niveauGris;
-
+        Color color;
         //Parcours le labyrinthe pour récupérer les murs et le vide
         for(int i = 0 ; i < pixmapLaby.getWidth() ; i++) {
             for (int j = 0; j < pixmapLaby.getHeight(); j++) {
                 niveauGris = pixmapLaby.getPixel(i, j)&255;
                 //Si c'est du vide
-                if(niveauGris == 255){
-                    pixmapDecor.setColor(pixmapPiste.getPixel(i,j));
+                if(niveauGris != 0){
+                    color = new Color(pixmapPiste.getPixel(i,j));
+                    color.r *= 0.25;
+                    color.g *= 0.25;
+                    color.b *= 0.25;
+                    pixmapDecor.setColor(color);
                     pixmapDecor.drawPixel(i, j);
                 }
             }
@@ -183,6 +187,33 @@ public class Maze {
         this.decor = new Texture(pixmapDecor);
         pixmapLaby.dispose();
         pixmapPiste.dispose();
+    }
+
+    /**
+     * Passe au labyrinthe suivant
+     */
+    public void nextLaby(){
+        if(numLabyrinthe < 5) {
+            numLabyrinthe++;
+        }else{
+            gameWorld.jeuFini();
+        }
+    }
+
+    /**
+     * Change de labyrinthe
+     */
+    public void changeLaby(ArrayList <Pastille> listePastille){
+        for (Pastille pastille: listePastille) {
+            gameWorld.getWorld().destroyBody(pastille.getBody());
+        }
+        gameWorld.getWorld().destroyBody(gameWorld.getBall2D().getBody());
+        listePastille.clear();
+        nextLaby();
+        billeTrouvee = false;
+        loadLaby(listePastille);
+        gameWorld.getBall2D().setPosition(positionInitialeBille);
+        gameWorld.getBall2D().getBody().setLinearVelocity(new Vector2(0,0));
     }
 
     /**

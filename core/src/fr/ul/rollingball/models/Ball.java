@@ -5,10 +5,12 @@ import com.badlogic.gdx.physics.box2d.*;
 
 public abstract class Ball {
     private float rayonGrand = 80/50.0f;
-    private double rayonPetit = 80/100.0f;
+    private float rayonPetit = 80/100.0f;
     private float rayon;
     private Body body;
     private FixtureDef fixtureDef;
+    private BodyDef bodyDef;
+    private GameWorld gameWorld;
 
     /**
      * Classe abstraire utilisée pour créer des billes en 2D et 3D
@@ -16,7 +18,8 @@ public abstract class Ball {
      * @param position position de la bille
      */
     public Ball(GameWorld gameWorld,Vector2 position){
-        BodyDef bodyDef = new BodyDef();
+        this.gameWorld = gameWorld;
+        bodyDef = new BodyDef();
         bodyDef.position.set(position);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
@@ -24,16 +27,27 @@ public abstract class Ball {
         rayon = rayonGrand;
 
         CircleShape circle = new CircleShape();
-        circle.setRadius((float) rayon);
+        circle.setRadius(rayon);
 
         fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.density = 1;
-        fixtureDef.restitution = (float) 0.25;
+        fixtureDef.restitution = 0.5f;
 
         body.createFixture(fixtureDef);
 
         circle.dispose();
+    }
+
+    /**
+     * @return si la bille est sortie de l'écran
+     */
+    public boolean isOut(){
+        boolean isOut = false;
+        if(getPosition().x > gameWorld.getWidth() || getPosition().y > gameWorld.getHeight() || getPosition().x < 0 || getPosition().y < 0){
+            isOut = true;
+        }
+        return isOut;
     }
 
     /**
@@ -63,6 +77,42 @@ public abstract class Ball {
      */
     public Body getBody() {
         return body;
+    }
+
+    public void setPosition(Vector2 position){
+        rayon = rayonGrand;
+        createBody(rayon, position);
+    }
+
+    public void changeSize(){
+        if(rayon == rayonGrand){
+            rayon = rayonPetit;
+        }else{
+            rayon = rayonGrand;
+        }
+        createBody(rayon, this.getPosition());
+    }
+
+    private void createBody(float rayon, Vector2 position){
+        gameWorld.getWorld().destroyBody(this.getBody());
+        bodyDef = new BodyDef();
+        bodyDef.position.set(this.getPosition());
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set(position);
+
+        body = gameWorld.getWorld().createBody(bodyDef);
+
+        CircleShape circle = new CircleShape();
+        circle.setRadius(rayon);
+
+        fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.density = 1;
+        fixtureDef.restitution = 0.5f;
+
+        body.createFixture(fixtureDef);
+
+        circle.dispose();
     }
 }
 

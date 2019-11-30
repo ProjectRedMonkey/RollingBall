@@ -16,11 +16,13 @@ public class GameWorld {
     private ArrayList<Pastille> listePastilles;
     private ContactListener contact;
     private Maze maze;
+    private boolean jeuFini;
 
     /**
      * Représente le monde dans lequel on joue
      */
     public GameWorld(){
+        jeuFini = false;
         world = new World(new Vector2(0, 0), true);
         maze = new Maze(this);
         listePastilles  = new ArrayList<>();
@@ -97,6 +99,10 @@ public class GameWorld {
         }
     }
 
+    public boolean isVictory(){
+        return ball2D.isOut();
+    }
+
     /**
      * @return la largeur de notre monde
      */
@@ -113,6 +119,22 @@ public class GameWorld {
 
     public ContactListener getContact() {
         return contact;
+    }
+
+    public Maze getMaze() {
+        return maze;
+    }
+
+    public ArrayList<Pastille> getListePastilles() {
+        return listePastilles;
+    }
+
+    public void jeuFini(){
+        jeuFini = true;
+    }
+
+    public boolean estJeuFini(){
+        return jeuFini;
     }
 }
 

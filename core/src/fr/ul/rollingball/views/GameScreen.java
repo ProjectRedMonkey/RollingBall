@@ -49,10 +49,13 @@ public class GameScreen extends ScreenAdapter {
      * Actualise graphiquement le monde, appelé dans GameScreen avant l'affichage
      */
     public void update(){
-        Vector2 force = new Vector2((Gdx.input.getAccelerometerY()*4f),-(Gdx.input.getAccelerometerX()*4f));
+        Vector2 force = new Vector2((Gdx.input.getAccelerometerY()*5f),-(Gdx.input.getAccelerometerX()*5f));
         gameWorld.getBall2D().applyForce(force);
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
         gameWorld.updatePastilles();
+        if (gameWorld.isVictory()){
+            gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+        }
     }
 
     /**
@@ -62,5 +65,7 @@ public class GameScreen extends ScreenAdapter {
         affichageJeu.dispose();
     }
 
-
+    public GameWorld getGameWorld() {
+        return gameWorld;
+    }
 }

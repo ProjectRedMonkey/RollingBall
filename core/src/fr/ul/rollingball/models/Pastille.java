@@ -75,6 +75,10 @@ public abstract class Pastille {
      */
     public abstract void draw(SpriteBatch spriteBatch);
 
+    public GameWorld getGameWorld() {
+        return gameWorld;
+    }
+
     /**
      * Applique l'effet de la pastille
      */

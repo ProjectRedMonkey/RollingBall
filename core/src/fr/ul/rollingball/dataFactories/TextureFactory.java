@@ -12,6 +12,7 @@ public class TextureFactory {
     private Texture pastilleNormale;
     private Texture murs;
     private Texture laby;
+    private Texture victoire;
 
     /**
      * Regroupe toutes les textures
@@ -24,6 +25,7 @@ public class TextureFactory {
         pastilleTaille = new Texture(Gdx.files.internal("images/pastilleTaille.bmp"));
         pastilleNormale = new Texture(Gdx.files.internal("images/pastilleNormale.bmp"));
         murs = new Texture(Gdx.files.internal("images/Murs.jpg"));
+        //victoire = new Texture(Gdx.files.internal("images/bravo.bmp"));
     }
 
     /**

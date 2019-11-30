@@ -7,7 +7,7 @@ import fr.ul.rollingball.dataFactories.TextureFactory;
 
 public class SizePastille extends Pastille {
     /**
-     * Pastille donnant un temps supplémentaire
+     * Pastille qui change la taille de la bille
      * @param position position de la pastille
      * @param game monde dans lequel on joue
      */
@@ -25,5 +25,6 @@ public class SizePastille extends Pastille {
     @Override
     public void effet() {
         SoundFactory.getInstance().playPastilleTaille(20);
+        getGameWorld().getBall2D().changeSize();
     }
 }
