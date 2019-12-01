@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -24,8 +25,12 @@ public class GameScreen extends ScreenAdapter {
     private GameState.etat etatDuJeu;
     private SpriteBatch affichageScore;
     private OrthographicCamera cameraTexte;
-    private BitmapFont police;
-    private Timer.Task task;
+    private Texture texture;
+    private String textPastilles;
+
+    protected FreeTypeFontGenerator fontGen;
+    protected FreeTypeFontGenerator.FreeTypeFontParameter fontCarac;
+    protected BitmapFont police;
 
     /**
      * Ecran de jeu
@@ -36,19 +41,24 @@ public class GameScreen extends ScreenAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, gameWorld.getWidth(),gameWorld.getHeight());
         camera.update();
+
         gameState = new GameState();
         etatDuJeu = gameState.getEtatActuel();
         affichageScore =  new SpriteBatch();
-        task = new Timer.Task() {
-            @Override
-            public void run() {
-                //changeLaby();
-            }
-        };
         cameraTexte = new OrthographicCamera();
         cameraTexte.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cameraTexte.update();
+
+        fontGen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Comic_Sans_MS_Bold.ttf"));
+        fontCarac = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontCarac.size = 50;
+        fontCarac.color = new Color(1,1,0,0.75f);
+        fontCarac.borderColor = Color.BLACK;
+        fontCarac.borderWidth = 0.5f;
+
         police = new BitmapFont();
+        police = fontGen.generateFont(fontCarac);
+        fontGen.dispose();
     }
 
     /**
@@ -58,13 +68,29 @@ public class GameScreen extends ScreenAdapter {
     public void render (float delta) {
         update();
         affichageJeu.setProjectionMatrix(camera.combined);
-        affichageScore.setProjectionMatrix(cameraTexte.combined);
+        affichageScore.begin();
+        affichageJeu.begin();
         if(gameState.isInProgress()) {
             gameWorld.draw(affichageJeu);
-        }else if (gameState.isInProgress()){
+            affichageScore.setProjectionMatrix(cameraTexte.combined);
+            police.draw(affichageScore,"Score : "+gameState.getScore(),Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+            police.draw(affichageScore,"Temps : "+gameState.getTempsRestant(), Gdx.graphics.getWidth()/2+Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight());
+        }else if (gameState.isStop()){
             Gdx.app.exit();
         }else{
             changeLaby();
+            affichageJeu.setProjectionMatrix(camera.combined);
+            affichageJeu.draw(texture, gameWorld.getWidth()/2-texture.getWidth(), gameWorld.getHeight()/2);
+            police.draw(affichageJeu, textPastilles, gameWorld.getWidth()/2, gameWorld.getHeight()/2);
+            Timer timer = new Timer();
+            Timer.Task task = new Timer.Task() {
+                @Override
+                public void run() {
+                    gameState.setState(GameState.etat.enCours);
+
+                }
+            };
+            timer.scheduleTask(task, 3);
         }
 
         /*
@@ -73,6 +99,9 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
         
          */
+        affichageScore.end();
+        affichageJeu.end();
+
     }
 
     /**
@@ -84,8 +113,8 @@ public class GameScreen extends ScreenAdapter {
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
         gameWorld.updatePastilles();
         if (gameWorld.isVictory()){
-            gameState.setState(GameState.etat.victoire);
-            //gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+            //gameState.setState(GameState.etat.victoire);
+            gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
         }
     }
 
@@ -108,6 +137,7 @@ public class GameScreen extends ScreenAdapter {
 
     public void augmenterScore(){
         gameState.setScore(gameState.getScore()+1);
+        augmenterPastillesAvalees();
     }
 
     public void augmenterPastillesAvalees(){
@@ -121,9 +151,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void changeLaby(){
-        affichageScore.begin();
-        Texture texture;
-        String textPastilles;
+        gameWorld.getWorld().destroyBody(gameWorld.getBall2D().getBody());
         if(gameState.isVictory()){
             texture = TextureFactory.getInstance().getVictoire();
             textPastilles = new String("Pastilles avalées : "+gameState.getNbPastillesAvalees());
@@ -131,8 +159,5 @@ public class GameScreen extends ScreenAdapter {
             texture = TextureFactory.getInstance().getPerdu();
             textPastilles = new String("Vous pouvez réessayer !");
         }
-        affichageScore.draw(texture, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2 );
-        police.draw(affichageScore, textPastilles, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        affichageScore.end();
     }
 }

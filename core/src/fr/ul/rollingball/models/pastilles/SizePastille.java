@@ -18,9 +18,7 @@ public class SizePastille extends Pastille {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.begin();
         spriteBatch.draw(TextureFactory.getInstance().getPastilleTaille(),this.getPosition().x-getRayon(), this.getPosition().y-getRayon(), getRayon()*2,getRayon()*2);
-        spriteBatch.end();
     }
 
     @Override

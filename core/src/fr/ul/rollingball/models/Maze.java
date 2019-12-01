@@ -23,6 +23,7 @@ public class Maze {
     private Vector2 positionInitialeBille;
     private ArrayList<Body> listeBriques;
     private boolean billeTrouvee = false;
+    private Texture piste = TextureFactory.getInstance().getTexturePiste();
 
     /**
      * Représente un labyrinthe dans lequel se déplace la bille
@@ -40,10 +41,8 @@ public class Maze {
      * @param spriteBatch la liste d'affichage
      */
     public void draw(SpriteBatch spriteBatch){
-        spriteBatch.begin();
         spriteBatch.draw(TextureFactory.getInstance().getMurs(),0,0, gameWorld.getWidth(),gameWorld.getHeight());
         spriteBatch.draw(decor, 0, 0, gameWorld.getWidth(), gameWorld.getHeight());
-        spriteBatch.end();
     }
 
     /**
@@ -59,12 +58,6 @@ public class Maze {
      * @param listePastilles pastilles à  ajouter au nouveau labyrinthe
      */
     public void loadLaby(ArrayList<Pastille> listePastilles){
-        //On détruit toutes les briques
-        for (Body brique: listeBriques) {
-            gameWorld.getWorld().destroyBody(brique);
-        }
-        listeBriques.clear();
-
         textureLabyrinthe = TextureFactory.getInstance().getLaby(numLabyrinthe);
         readObjects(textureLabyrinthe, listePastilles);
         buildTexLaby();
@@ -160,7 +153,6 @@ public class Maze {
         }
         Pixmap pixmapLaby = textureLabyrinthe.getTextureData().consumePixmap();
 
-        Texture piste = TextureFactory.getInstance().getTexturePiste();
         if (!piste.getTextureData().isPrepared()) {
             piste.getTextureData().prepare();
         }
@@ -191,6 +183,7 @@ public class Maze {
         this.decor = new Texture(pixmapDecor);
         pixmapLaby.dispose();
         pixmapPiste.dispose();
+        pixmapDecor.dispose();
     }
 
     /**
@@ -211,7 +204,13 @@ public class Maze {
         for (Pastille pastille: listePastille) {
             gameWorld.getWorld().destroyBody(pastille.getBody());
         }
-        gameWorld.getWorld().destroyBody(gameWorld.getBall2D().getBody());
+        listePastille.clear();
+        //On détruit toutes les briques
+        for (Body brique: listeBriques) {
+            gameWorld.getWorld().destroyBody(brique);
+        }
+        listeBriques.clear();
+
         listePastille.clear();
         nextLaby();
         billeTrouvee = false;

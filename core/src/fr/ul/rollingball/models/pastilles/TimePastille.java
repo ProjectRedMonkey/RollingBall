@@ -18,9 +18,7 @@ public class TimePastille extends Pastille {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.begin();
         spriteBatch.draw(TextureFactory.getInstance().getPastilleTemps(),this.getPosition().x-getRayon(), this.getPosition().y-getRayon(), getRayon()*2,getRayon()*2);
-        spriteBatch.end();
     }
 
     @Override

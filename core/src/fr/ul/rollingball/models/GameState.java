@@ -26,7 +26,7 @@ public class GameState {
         score = 0;
         tempsRestant = tempsDispo;
         nbPastillesAvalees = 0;
-        etatActuel = etat.arret;
+        etatActuel = etat.enCours;
         Timer timer = new Timer();
         decompte = new Timer.Task() {
             @Override
