@@ -1,9 +1,10 @@
-package fr.ul.rollingball.models;
+package fr.ul.rollingball.models.pastilles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.rollingball.dataFactories.SoundFactory;
 import fr.ul.rollingball.dataFactories.TextureFactory;
+import fr.ul.rollingball.models.GameWorld;
 
 public class SizePastille extends Pastille {
     /**

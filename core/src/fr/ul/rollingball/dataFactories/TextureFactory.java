@@ -13,6 +13,7 @@ public class TextureFactory {
     private Texture murs;
     private Texture laby;
     private Texture victoire;
+    private Texture perdu;
 
     /**
      * Regroupe toutes les textures
@@ -25,7 +26,8 @@ public class TextureFactory {
         pastilleTaille = new Texture(Gdx.files.internal("images/pastilleTaille.bmp"));
         pastilleNormale = new Texture(Gdx.files.internal("images/pastilleNormale.bmp"));
         murs = new Texture(Gdx.files.internal("images/Murs.jpg"));
-        //victoire = new Texture(Gdx.files.internal("images/bravo.bmp"));
+        victoire = new Texture(Gdx.files.internal("images/Bravo.bmp"));
+        perdu = new Texture(Gdx.files.internal("images/Perte.bmp"));
     }
 
     /**
@@ -89,5 +91,13 @@ public class TextureFactory {
     public Texture getLaby(int num) {
         laby = new Texture(Gdx.files.internal("images/Laby"+num+".png"));
         return laby;
+    }
+
+    public Texture getVictoire() {
+        return victoire;
+    }
+
+    public Texture getPerdu() {
+        return perdu;
     }
 }

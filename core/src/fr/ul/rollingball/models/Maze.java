@@ -1,6 +1,5 @@
 package fr.ul.rollingball.models;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,6 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import fr.ul.rollingball.dataFactories.TextureFactory;
+import fr.ul.rollingball.models.pastilles.Pastille;
+import fr.ul.rollingball.models.pastilles.ScorePastille;
+import fr.ul.rollingball.models.pastilles.SizePastille;
+import fr.ul.rollingball.models.pastilles.TimePastille;
 
 import java.util.ArrayList;
 
@@ -60,6 +63,7 @@ public class Maze {
         for (Body brique: listeBriques) {
             gameWorld.getWorld().destroyBody(brique);
         }
+        listeBriques.clear();
 
         textureLabyrinthe = TextureFactory.getInstance().getLaby(numLabyrinthe);
         readObjects(textureLabyrinthe, listePastilles);

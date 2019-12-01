@@ -1,8 +1,9 @@
-package fr.ul.rollingball.models;
+package fr.ul.rollingball.models.pastilles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.rollingball.models.GameWorld;
 
 public abstract class Pastille {
     private static float rayon = 0.7f;

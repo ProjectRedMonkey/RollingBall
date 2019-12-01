@@ -3,7 +3,8 @@ package fr.ul.rollingball.models;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import fr.ul.rollingball.dataFactories.TextureFactory;
+import fr.ul.rollingball.models.balls.Ball2D;
+import fr.ul.rollingball.models.pastilles.Pastille;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -115,10 +116,6 @@ public class GameWorld {
      */
     public int getHeight() {
         return height;
-    }
-
-    public ContactListener getContact() {
-        return contact;
     }
 
     public Maze getMaze() {

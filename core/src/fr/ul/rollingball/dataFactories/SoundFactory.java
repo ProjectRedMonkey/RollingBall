@@ -8,6 +8,7 @@ public class SoundFactory {
     private Music pastille;
     private Music pastilleTemps;
     private Music pastilleTaille;
+    private Music alerte;
 
     /**
      * Regroupe tous les sons
@@ -17,6 +18,7 @@ public class SoundFactory {
         pastille = Gdx.audio.newMusic(Gdx.files.internal("sounds/pastille.wav"));
         pastilleTemps = Gdx.audio.newMusic(Gdx.files.internal("sounds/ptemps.wav"));
         pastilleTaille = Gdx.audio.newMusic(Gdx.files.internal("sounds/ptaille.wav"));
+        alerte = Gdx.audio.newMusic(Gdx.files.internal("sounds/alerte.mp3"));
     }
 
     /**
@@ -62,5 +64,14 @@ public class SoundFactory {
     public void playPastilleTaille(float volume){
         pastilleTaille.setVolume(volume/100);
         pastilleTaille.play();
+    }
+
+    /**
+     * Préviens le joueur qu'il reste peu de temps
+     * @param volume volume choisi
+     */
+    public void playAlerte(float volume){
+        alerte.setVolume(volume/100);
+        alerte.play();
     }
 }

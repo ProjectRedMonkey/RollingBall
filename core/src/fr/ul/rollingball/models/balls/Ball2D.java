@@ -1,8 +1,10 @@
-package fr.ul.rollingball.models;
+package fr.ul.rollingball.models.balls;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.rollingball.dataFactories.TextureFactory;
+import fr.ul.rollingball.models.GameWorld;
+import fr.ul.rollingball.models.balls.Ball;
 
 public class Ball2D extends Ball {
 
