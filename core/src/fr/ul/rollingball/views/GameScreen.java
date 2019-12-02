@@ -12,9 +12,12 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
+import fr.ul.rollingball.dataFactories.SoundFactory;
 import fr.ul.rollingball.dataFactories.TextureFactory;
 import fr.ul.rollingball.models.GameState;
 import fr.ul.rollingball.models.GameWorld;
+import fr.ul.rollingball.models.Maze;
+import fr.ul.rollingball.models.balls.Ball2D;
 
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch affichageJeu;
@@ -28,9 +31,10 @@ public class GameScreen extends ScreenAdapter {
     private Texture texture;
     private String textPastilles;
 
-    protected FreeTypeFontGenerator fontGen;
-    protected FreeTypeFontGenerator.FreeTypeFontParameter fontCarac;
-    protected BitmapFont police;
+    private FreeTypeFontGenerator fontGen;
+    private FreeTypeFontGenerator.FreeTypeFontParameter fontCarac;
+    private BitmapFont police;
+
 
     /**
      * Ecran de jeu
@@ -44,6 +48,7 @@ public class GameScreen extends ScreenAdapter {
 
         gameState = new GameState();
         etatDuJeu = gameState.getEtatActuel();
+        dureeDuJeu = gameState.getTempsDispo();
         affichageScore =  new SpriteBatch();
         cameraTexte = new OrthographicCamera();
         cameraTexte.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -79,25 +84,16 @@ public class GameScreen extends ScreenAdapter {
             Gdx.app.exit();
         }else{
             changeLaby();
-            affichageJeu.setProjectionMatrix(camera.combined);
-            affichageJeu.draw(texture, gameWorld.getWidth()/2-texture.getWidth(), gameWorld.getHeight()/2);
-            police.draw(affichageJeu, textPastilles, gameWorld.getWidth()/2, gameWorld.getHeight()/2);
-            Timer timer = new Timer();
-            Timer.Task task = new Timer.Task() {
-                @Override
-                public void run() {
-                    gameState.setState(GameState.etat.enCours);
-
-                }
-            };
-            timer.scheduleTask(task, 3);
+            //affichageJeu.setProjectionMatrix(camera.combined);
+            //affichageJeu.draw(texture, 30, 30);
+            //police.draw(affichageJeu, textPastilles, 20, 20);
         }
 
         /*
         //Utilisé pour voir la hitbox des bodies
         Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
         box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
-        
+
          */
         affichageScore.end();
         affichageJeu.end();
@@ -114,8 +110,18 @@ public class GameScreen extends ScreenAdapter {
         gameWorld.updatePastilles();
         if (gameWorld.isVictory()){
             //gameState.setState(GameState.etat.victoire);
-            gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+            gameState.setState(GameState.etat.victoire);
         }
+    }
+
+
+    public void reset(){
+        gameWorld.setMaze(new Maze(gameWorld));
+        gameWorld.getMaze().loadLaby(gameWorld.getListePastilles());
+        resetScore();
+        ajouterTemps(dureeDuJeu);
+        gameWorld.setBall2D(new Ball2D(gameWorld, gameWorld.getMaze().getPositionInitialeBille()));
+        gameState.setState(GameState.etat.enCours);
     }
 
     /**
@@ -128,7 +134,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public GameState.etat getEtatDuJeu() {
-        return etatDuJeu;
+        return gameState.getEtatActuel();
     }
 
     public void ajouterTemps(int sec){
@@ -144,6 +150,10 @@ public class GameScreen extends ScreenAdapter {
         gameState.setNbPastillesAvalees(gameState.getNbPastillesAvalees()+1);
     }
 
+    public void resetScore(){
+        gameState.setScore(0);
+    }
+
     @Override
     public void show() {
         super.show();
@@ -151,13 +161,17 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void changeLaby(){
-        gameWorld.getWorld().destroyBody(gameWorld.getBall2D().getBody());
         if(gameState.isVictory()){
             texture = TextureFactory.getInstance().getVictoire();
             textPastilles = new String("Pastilles avalées : "+gameState.getNbPastillesAvalees());
+            ajouterTemps(dureeDuJeu);
+            SoundFactory.getInstance().playVictoire(20);
+            gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+            gameState.setState(GameState.etat.enCours);
         }else{
             texture = TextureFactory.getInstance().getPerdu();
             textPastilles = new String("Vous pouvez réessayer !");
+            reset();
         }
     }
 }

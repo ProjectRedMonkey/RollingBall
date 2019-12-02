@@ -122,6 +122,14 @@ public class GameWorld {
         return maze;
     }
 
+    public void setBall2D(Ball2D ball2D) {
+        this.ball2D = ball2D;
+    }
+
+    public void setMaze(Maze maze) {
+        this.maze = maze;
+    }
+
     public ArrayList<Pastille> getListePastilles() {
         return listePastilles;
     }

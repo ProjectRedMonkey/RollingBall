@@ -211,7 +211,6 @@ public class Maze {
         }
         listeBriques.clear();
 
-        listePastille.clear();
         nextLaby();
         billeTrouvee = false;
         loadLaby(listePastille);
