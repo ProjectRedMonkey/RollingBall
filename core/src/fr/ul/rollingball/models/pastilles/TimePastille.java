@@ -18,11 +18,15 @@ public class TimePastille extends Pastille {
 
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(TextureFactory.getInstance().getPastilleTemps(),this.getPosition().x-getRayon(), this.getPosition().y-getRayon(), getRayon()*2,getRayon()*2);
+        spriteBatch.begin();
+        spriteBatch.draw(TextureFactory.getInstance().getPastilleTemps(),this.getPosition().x-getRayon(),
+                this.getPosition().y-getRayon(), getRayon()*2,getRayon()*2);
+        spriteBatch.end();
     }
 
     @Override
     public void effet() {
         SoundFactory.getInstance().playPastilleTemps(20);
+        getGameWorld().getGameScreen().ajouterTemps(20);
     }
 }

@@ -41,7 +41,7 @@ public class GameScreen extends ScreenAdapter {
      */
     public GameScreen(){
         affichageJeu = new SpriteBatch();
-        gameWorld = new GameWorld();
+        gameWorld = new GameWorld(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, gameWorld.getWidth(),gameWorld.getHeight());
         camera.update();
@@ -73,13 +73,14 @@ public class GameScreen extends ScreenAdapter {
     public void render (float delta) {
         update();
         affichageJeu.setProjectionMatrix(camera.combined);
-        affichageScore.begin();
-        affichageJeu.begin();
+
         if(gameState.isInProgress()) {
             gameWorld.draw(affichageJeu);
             affichageScore.setProjectionMatrix(cameraTexte.combined);
+            affichageScore.begin();
             police.draw(affichageScore,"Score : "+gameState.getScore(),Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
             police.draw(affichageScore,"Temps : "+gameState.getTempsRestant(), Gdx.graphics.getWidth()/2+Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight());
+            affichageScore.end();
         }else if (gameState.isStop()){
             Gdx.app.exit();
         }else{
@@ -95,9 +96,6 @@ public class GameScreen extends ScreenAdapter {
         box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
 
          */
-        affichageScore.end();
-        affichageJeu.end();
-
     }
 
     /**

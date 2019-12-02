@@ -22,7 +22,10 @@ public class ScorePastille extends Pastille {
      */
     @Override
     public void draw(SpriteBatch spriteBatch) {
-        spriteBatch.draw(TextureFactory.getInstance().getPastilleNormale(),this.getPosition().x-getRayon(), this.getPosition().y-getRayon(), getRayon()*2,getRayon()*2);
+        spriteBatch.begin();
+        spriteBatch.draw(TextureFactory.getInstance().getPastilleNormale(),this.getPosition().x-getRayon(),
+                this.getPosition().y-getRayon(), getRayon()*2,getRayon()*2);
+        spriteBatch.end();
     }
 
     /**
@@ -31,6 +34,6 @@ public class ScorePastille extends Pastille {
     @Override
     public void effet() {
         SoundFactory.getInstance().playPastille(20);
-
+        getGameWorld().getGameScreen().augmenterScore();
     }
 }

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import fr.ul.rollingball.models.balls.Ball2D;
 import fr.ul.rollingball.models.pastilles.Pastille;
+import fr.ul.rollingball.views.GameScreen;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,11 +19,13 @@ public class GameWorld {
     private ContactListener contact;
     private Maze maze;
     private boolean jeuFini;
+    private GameScreen gameScreen;
 
     /**
      * Représente le monde dans lequel on joue
      */
-    public GameWorld(){
+    public GameWorld(GameScreen gameScreen){
+        this.gameScreen = gameScreen;
         jeuFini = false;
         world = new World(new Vector2(0, 0), true);
         maze = new Maze(this);
@@ -140,6 +143,10 @@ public class GameWorld {
 
     public boolean estJeuFini(){
         return jeuFini;
+    }
+
+    public GameScreen getGameScreen() {
+        return gameScreen;
     }
 }
 

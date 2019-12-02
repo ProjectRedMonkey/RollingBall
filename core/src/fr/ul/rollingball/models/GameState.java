@@ -46,6 +46,9 @@ public class GameState {
             if(tempsRestant <= 10){
                 SoundFactory.getInstance().playAlerte(20);
             }
+            if(tempsRestant == 0){
+                etatActuel = etat.perte;
+            }
         }
     }
 

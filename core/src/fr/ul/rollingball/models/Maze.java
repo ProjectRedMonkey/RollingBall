@@ -41,8 +41,10 @@ public class Maze {
      * @param spriteBatch la liste d'affichage
      */
     public void draw(SpriteBatch spriteBatch){
+        spriteBatch.begin();
         spriteBatch.draw(TextureFactory.getInstance().getMurs(),0,0, gameWorld.getWidth(),gameWorld.getHeight());
         spriteBatch.draw(decor, 0, 0, gameWorld.getWidth(), gameWorld.getHeight());
+        spriteBatch.end();
     }
 
     /**
