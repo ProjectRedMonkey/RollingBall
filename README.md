@@ -9,4 +9,4 @@ The game is obviously runnable only on Android smartphone.
 
 Credit to Salih Nascimento for the splashscreen.
 
-![screenshot](C:/Users/Monkey/Pictures/Screenshots/rollingball.png)
+![Uploading rollingball.PNG…]()
