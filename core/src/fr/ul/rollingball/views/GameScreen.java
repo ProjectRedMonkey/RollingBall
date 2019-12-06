@@ -25,7 +25,6 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private GameState gameState;
     private static int dureeDuJeu;
-    private GameState.etat etatDuJeu;
     private SpriteBatch affichageScore;
     private OrthographicCamera cameraTexte;
     private Texture texture;
@@ -47,7 +46,6 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
 
         gameState = new GameState();
-        etatDuJeu = gameState.getEtatActuel();
         dureeDuJeu = gameState.getTempsDispo();
         affichageScore =  new SpriteBatch();
         cameraTexte = new OrthographicCamera();
@@ -70,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
      * Affiche l'écran de jeu
      */
     @Override
-    public void render (float delta) {
+    public void render(float delta) {
         update();
         affichageJeu.setProjectionMatrix(camera.combined);
 
@@ -85,9 +83,21 @@ public class GameScreen extends ScreenAdapter {
             Gdx.app.exit();
         }else{
             changeLaby();
-            //affichageJeu.setProjectionMatrix(camera.combined);
-            //affichageJeu.draw(texture, 30, 30);
-            //police.draw(affichageJeu, textPastilles, 20, 20);
+            gameState.setState(GameState.etat.enCours);
+
+            affichageScore.setProjectionMatrix(cameraTexte.combined);
+            affichageScore.begin();
+            police.draw(affichageScore,"Score : "+gameState.getScore(),Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
+            police.draw(affichageScore,"Temps : "+gameState.getTempsRestant(), Gdx.graphics.getWidth()/2+Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            affichageScore.end();
+            Timer timer = new Timer();
+            Timer.Task task = new Timer.Task() {
+                @Override
+                public void run() {
+                    gameState.setState(GameState.etat.enCours);
+                }
+            };
+            timer.scheduleTask(task, 2);
         }
 
         /*
@@ -107,7 +117,6 @@ public class GameScreen extends ScreenAdapter {
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
         gameWorld.updatePastilles();
         if (gameWorld.isVictory()){
-            //gameState.setState(GameState.etat.victoire);
             gameState.setState(GameState.etat.victoire);
         }
     }
@@ -165,7 +174,6 @@ public class GameScreen extends ScreenAdapter {
             ajouterTemps(dureeDuJeu);
             SoundFactory.getInstance().playVictoire(20);
             gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
-            gameState.setState(GameState.etat.enCours);
         }else{
             texture = TextureFactory.getInstance().getPerdu();
             textPastilles = new String("Vous pouvez réessayer !");
