@@ -9,6 +9,7 @@ public class SoundFactory {
     private Music pastilleTemps;
     private Music pastilleTaille;
     private Music alerte;
+    private Music defaite;
 
     /**
      * Regroupe tous les sons
@@ -19,6 +20,7 @@ public class SoundFactory {
         pastilleTemps = Gdx.audio.newMusic(Gdx.files.internal("sounds/ptemps.wav"));
         pastilleTaille = Gdx.audio.newMusic(Gdx.files.internal("sounds/ptaille.wav"));
         alerte = Gdx.audio.newMusic(Gdx.files.internal("sounds/alerte.mp3"));
+        defaite = Gdx.audio.newMusic(Gdx.files.internal("sounds/perte.mp3"));
     }
 
     /**
@@ -73,5 +75,10 @@ public class SoundFactory {
     public void playAlerte(float volume){
         alerte.setVolume(volume/100);
         alerte.play();
+    }
+
+    public void playDefaite(float volume){
+        defaite.setVolume(volume/100);
+        defaite.play();
     }
 }

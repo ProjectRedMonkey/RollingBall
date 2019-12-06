@@ -27,6 +27,6 @@ public class TimePastille extends Pastille {
     @Override
     public void effet() {
         SoundFactory.getInstance().playPastilleTemps(20);
-        getGameWorld().getGameScreen().ajouterTemps(20);
+        getGameWorld().getGameScreen().ajouterTemps(5);
     }
 }

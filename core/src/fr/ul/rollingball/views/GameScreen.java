@@ -1,6 +1,7 @@
 package fr.ul.rollingball.views;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
+import fr.ul.rollingball.controllers.KeyboardListener;
 import fr.ul.rollingball.dataFactories.SoundFactory;
 import fr.ul.rollingball.dataFactories.TextureFactory;
 import fr.ul.rollingball.models.GameState;
@@ -22,11 +24,13 @@ import fr.ul.rollingball.models.balls.Ball2D;
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch affichageJeu;
     private GameWorld gameWorld;
+    private KeyboardListener keyboardListener;
     private OrthographicCamera camera;
     private GameState gameState;
     private static int dureeDuJeu;
     private SpriteBatch affichageScore;
     private OrthographicCamera cameraTexte;
+    private boolean createdTimer = false;
     private Texture texture;
     private String textPastilles;
 
@@ -54,7 +58,7 @@ public class GameScreen extends ScreenAdapter {
 
         fontGen = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Comic_Sans_MS_Bold.ttf"));
         fontCarac = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontCarac.size = 50;
+        fontCarac.size = 40;
         fontCarac.color = new Color(1,1,0,0.75f);
         fontCarac.borderColor = Color.BLACK;
         fontCarac.borderWidth = 0.5f;
@@ -62,6 +66,9 @@ public class GameScreen extends ScreenAdapter {
         police = new BitmapFont();
         police = fontGen.generateFont(fontCarac);
         fontGen.dispose();
+
+        keyboardListener = new KeyboardListener();
+        Gdx.input.setInputProcessor(keyboardListener);
     }
 
     /**
@@ -82,38 +89,62 @@ public class GameScreen extends ScreenAdapter {
         }else if (gameState.isStop()){
             Gdx.app.exit();
         }else{
-            changeLaby();
-            gameState.setState(GameState.etat.enCours);
+            if(gameState.isVictory()) {
+                texture = TextureFactory.getInstance().getVictoire();
+                textPastilles = "Pastilles avalées : "+gameState.getNbPastillesAvalees();
+            }else if(gameState.isLost()){
+                texture = TextureFactory.getInstance().getPerdu();
+                textPastilles = new String("Vous pouvez réessayer !");
+            }
+
 
             affichageScore.setProjectionMatrix(cameraTexte.combined);
             affichageScore.begin();
-            police.draw(affichageScore,"Score : "+gameState.getScore(),Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight());
-            police.draw(affichageScore,"Temps : "+gameState.getTempsRestant(), Gdx.graphics.getWidth()/2+Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+            affichageScore.draw(texture,Gdx.graphics.getWidth()/2f-texture.getWidth()/2f, Gdx.graphics.getHeight()/2f-texture.getHeight()/2f);
+            police.draw(affichageScore, textPastilles, Gdx.graphics.getWidth()/2-200, Gdx.graphics.getHeight()/3);
             affichageScore.end();
-            Timer timer = new Timer();
-            Timer.Task task = new Timer.Task() {
-                @Override
-                public void run() {
-                    gameState.setState(GameState.etat.enCours);
+            if(!createdTimer) {
+                createdTimer = true;
+                if(gameState.isVictory()) {
+                    SoundFactory.getInstance().playVictoire(20);
+                }else{
+                    SoundFactory.getInstance().playDefaite(20);
                 }
-            };
-            timer.scheduleTask(task, 2);
+                Timer timer = new Timer();
+                Timer.Task task = new Timer.Task() {
+                    @Override
+                    public void run() {
+                        changeLaby();
+                        gameState.setState(GameState.etat.enCours);
+                        createdTimer = false;
+                    }
+                };
+                timer.scheduleTask(task, 3);
+            }
         }
 
-        /*
-        //Utilisé pour voir la hitbox des bodies
-        Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
-        box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
 
-         */
+        //Utilisé pour voir la hitbox des bodies
+        if(keyboardListener.isDebug()) {
+            Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
+            box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
+        }
+
+
     }
 
     /**
      * Actualise graphiquement le monde, appelé dans GameScreen avant l'affichage
      */
     public void update(){
-        Vector2 force = new Vector2((Gdx.input.getAccelerometerY()*5f),-(Gdx.input.getAccelerometerX()*5f));
-        gameWorld.getBall2D().applyForce(force);
+        if(Gdx.input.isPeripheralAvailable( Input.Peripheral.Accelerometer )) {
+            Vector2 force = new Vector2((Gdx.input.getAccelerometerY() * 5f), -(Gdx.input.getAccelerometerX() * 5f));
+            gameWorld.getBall2D().applyForce(force);
+        }else {
+            if (keyboardListener.getAcceleration() != null) {
+                gameWorld.getBall2D().getBody().applyForceToCenter(keyboardListener.getAcceleration(), true);
+            }
+        }
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
         gameWorld.updatePastilles();
         if (gameWorld.isVictory()){
@@ -168,15 +199,11 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void changeLaby(){
+        keyboardListener.resetAcceleration();
         if(gameState.isVictory()){
-            texture = TextureFactory.getInstance().getVictoire();
-            textPastilles = new String("Pastilles avalées : "+gameState.getNbPastillesAvalees());
-            ajouterTemps(dureeDuJeu);
-            SoundFactory.getInstance().playVictoire(20);
+            ajouterTemps(20);
             gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
         }else{
-            texture = TextureFactory.getInstance().getPerdu();
-            textPastilles = new String("Vous pouvez réessayer !");
             reset();
         }
     }
