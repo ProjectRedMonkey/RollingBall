@@ -2,6 +2,7 @@ package fr.ul.rollingball.views;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,10 +10,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
+import fr.ul.rollingball.controllers.GestureListener;
 import fr.ul.rollingball.controllers.KeyboardListener;
 import fr.ul.rollingball.dataFactories.SoundFactory;
 import fr.ul.rollingball.dataFactories.TextureFactory;
@@ -20,11 +23,13 @@ import fr.ul.rollingball.models.GameState;
 import fr.ul.rollingball.models.GameWorld;
 import fr.ul.rollingball.models.Maze;
 import fr.ul.rollingball.models.balls.Ball2D;
+import fr.ul.rollingball.models.pastilles.Pastille;
 
 public class GameScreen extends ScreenAdapter {
     private SpriteBatch affichageJeu;
     private GameWorld gameWorld;
     private KeyboardListener keyboardListener;
+    private GestureListener gestureListener;
     private OrthographicCamera camera;
     private GameState gameState;
     private static int dureeDuJeu;
@@ -33,6 +38,7 @@ public class GameScreen extends ScreenAdapter {
     private boolean createdTimer = false;
     private Texture texture;
     private String textPastilles;
+    private Vector2 acc;
 
     private FreeTypeFontGenerator fontGen;
     private FreeTypeFontGenerator.FreeTypeFontParameter fontCarac;
@@ -68,7 +74,12 @@ public class GameScreen extends ScreenAdapter {
         fontGen.dispose();
 
         keyboardListener = new KeyboardListener();
-        Gdx.input.setInputProcessor(keyboardListener);
+        gestureListener = new GestureListener();
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(keyboardListener);
+        GestureDetector gestureDetector = new GestureDetector(gestureListener);
+        inputMultiplexer.addProcessor(gestureDetector);
+        Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
     /**
@@ -97,10 +108,9 @@ public class GameScreen extends ScreenAdapter {
                 textPastilles = new String("Vous pouvez réessayer !");
             }
 
-
             affichageScore.setProjectionMatrix(cameraTexte.combined);
             affichageScore.begin();
-            affichageScore.draw(texture,Gdx.graphics.getWidth()/2f-texture.getWidth()/2f, Gdx.graphics.getHeight()/2f-texture.getHeight()/2f);
+            affichageScore.draw(texture,Gdx.graphics.getWidth()/2f-texture.getWidth()/2f, Gdx.graphics.getHeight()/2f-texture.getHeight()/2f, texture.getWidth(),texture.getHeight());
             police.draw(affichageScore, textPastilles, Gdx.graphics.getWidth()/2-200, Gdx.graphics.getHeight()/3);
             affichageScore.end();
             if(!createdTimer) {
@@ -137,13 +147,12 @@ public class GameScreen extends ScreenAdapter {
      * Actualise graphiquement le monde, appelé dans GameScreen avant l'affichage
      */
     public void update(){
+        acc = new Vector2(gestureListener.getAcceleration());
         if(Gdx.input.isPeripheralAvailable( Input.Peripheral.Accelerometer )) {
-            Vector2 force = new Vector2((Gdx.input.getAccelerometerY() * 5f), -(Gdx.input.getAccelerometerX() * 5f));
-            gameWorld.getBall2D().applyForce(force);
+            gameWorld.getBall2D().applyForce(new Vector2(Gdx.input.getAccelerometerY()*20f+acc.x,
+                    -(Gdx.input.getAccelerometerX()*20f)+acc.y));
         }else {
-            if (keyboardListener.getAcceleration() != null) {
-                gameWorld.getBall2D().getBody().applyForceToCenter(keyboardListener.getAcceleration(), true);
-            }
+            gameWorld.getBall2D().applyForce(new Vector2(keyboardListener.getAcceleration().x + acc.x, keyboardListener.getAcceleration().y + acc.y));
         }
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
         gameWorld.updatePastilles();
@@ -154,12 +163,15 @@ public class GameScreen extends ScreenAdapter {
 
 
     public void reset(){
+        for (Pastille pastille:gameWorld.getListePastilles()) {
+            gameWorld.getWorld().destroyBody(pastille.getBody());
+        }
+        gameWorld.getListePastilles().clear();
         gameWorld.setMaze(new Maze(gameWorld));
         gameWorld.getMaze().loadLaby(gameWorld.getListePastilles());
         resetScore();
         ajouterTemps(dureeDuJeu);
         gameWorld.setBall2D(new Ball2D(gameWorld, gameWorld.getMaze().getPositionInitialeBille()));
-        gameState.setState(GameState.etat.enCours);
     }
 
     /**

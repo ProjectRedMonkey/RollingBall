@@ -56,7 +56,7 @@ public abstract class Ball {
      * @param vector gravité à  appliquer
      */
     public void applyForce(Vector2 vector){
-        body.setLinearVelocity(vector);
+        body.applyForceToCenter(vector, true);
     }
 
     /**
