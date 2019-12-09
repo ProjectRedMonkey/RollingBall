@@ -2,12 +2,13 @@ package fr.ul.rollingball.dataFactories;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 public class SoundFactory {
     private Music victoire;
-    private Music pastille;
-    private Music pastilleTemps;
-    private Music pastilleTaille;
+    private Sound pastille;
+    private Sound pastilleTemps;
+    private Sound pastilleTaille;
     private Music alerte;
     private Music defaite;
 
@@ -16,9 +17,9 @@ public class SoundFactory {
      */
     private SoundFactory(){
         victoire = Gdx.audio.newMusic(Gdx.files.internal("sounds/victoire.mp3"));
-        pastille = Gdx.audio.newMusic(Gdx.files.internal("sounds/pastille.wav"));
-        pastilleTemps = Gdx.audio.newMusic(Gdx.files.internal("sounds/ptemps.wav"));
-        pastilleTaille = Gdx.audio.newMusic(Gdx.files.internal("sounds/ptaille.wav"));
+        pastille = Gdx.audio.newSound(Gdx.files.internal("sounds/pastille.wav"));
+        pastilleTemps = Gdx.audio.newSound(Gdx.files.internal("sounds/ptemps.wav"));
+        pastilleTaille = Gdx.audio.newSound(Gdx.files.internal("sounds/ptaille.wav"));
         alerte = Gdx.audio.newMusic(Gdx.files.internal("sounds/alerte.mp3"));
         defaite = Gdx.audio.newMusic(Gdx.files.internal("sounds/perte.mp3"));
     }
@@ -46,8 +47,7 @@ public class SoundFactory {
      * @param volume volume choisi
      */
     public void playPastille(float volume){
-        pastille.setVolume(volume/100);
-        pastille.play();
+        pastille.play(volume/100);
     }
 
     /**
@@ -55,8 +55,7 @@ public class SoundFactory {
      * @param volume volume choisi
      */
     public void playPastilleTemps(float volume){
-        pastilleTemps.setVolume(volume/100);
-        pastilleTemps.play();
+        pastilleTemps.play(volume/100);
     }
 
     /**
@@ -64,8 +63,7 @@ public class SoundFactory {
      * @param volume volume choisi
      */
     public void playPastilleTaille(float volume){
-        pastilleTaille.setVolume(volume/100);
-        pastilleTaille.play();
+        pastilleTaille.play(volume/100);
     }
 
     /**
