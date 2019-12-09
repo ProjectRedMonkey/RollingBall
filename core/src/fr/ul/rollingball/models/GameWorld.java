@@ -3,7 +3,9 @@ package fr.ul.rollingball.models;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.rollingball.models.balls.Ball;
 import fr.ul.rollingball.models.balls.Ball2D;
+import fr.ul.rollingball.models.balls.Ball3D;
 import fr.ul.rollingball.models.pastilles.Pastille;
 import fr.ul.rollingball.views.GameScreen;
 
@@ -13,13 +15,14 @@ import java.util.Iterator;
 public class GameWorld {
     private int width = 80;
     private int height = 60;
-    private Ball2D ball2D;
+    private Ball ball2D;
     private World world;
     private ArrayList<Pastille> listePastilles;
     private ContactListener contact;
     private Maze maze;
     private boolean jeuFini;
     private GameScreen gameScreen;
+    private boolean ball = false;
 
     /**
      * Représente le monde dans lequel on joue
@@ -74,7 +77,7 @@ public class GameWorld {
     /**
      * @return notre boule
      */
-    public Ball2D getBall2D() {
+    public Ball getBall2D() {
         return ball2D;
     }
 
@@ -84,7 +87,19 @@ public class GameWorld {
      */
     public void draw(SpriteBatch spriteBatch){
         maze.draw(spriteBatch);
-        ball2D.draw(spriteBatch);
+        if(ball) {
+            if(ball2D instanceof Ball3D) {
+                world.destroyBody(ball2D.getBody());
+                ball2D = new Ball2D(this, ball2D.getPosition());
+            }
+            ball2D.draw(spriteBatch);
+        }else{
+            if(ball2D instanceof Ball2D) {
+                world.destroyBody(ball2D.getBody());
+                ball2D = new Ball3D(this, ball2D.getPosition());
+            }
+            ball2D.draw(spriteBatch, getGameScreen().getCamera());
+        }
         for(Pastille pastille : listePastilles){
             pastille.draw(spriteBatch);
         }
@@ -147,6 +162,10 @@ public class GameWorld {
 
     public GameScreen getGameScreen() {
         return gameScreen;
+    }
+
+    public void setBall(boolean ball) {
+        this.ball = ball;
     }
 }
 

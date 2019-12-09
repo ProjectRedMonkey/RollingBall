@@ -10,12 +10,14 @@ public class KeyboardListener implements InputProcessor {
     private boolean quit;
     private boolean debug;
     private Vector2 acceleration;
+    private boolean ball;
 
     //Permet de gérer les touches via clavier (uniquement pour la version Desktop)
     public KeyboardListener(){
         debug = false;
         quit =  false;
         acceleration = new Vector2(0, 0);
+        ball = true;
     }
 
     @Override
@@ -40,7 +42,13 @@ public class KeyboardListener implements InputProcessor {
             case Input.Keys.DOWN:
                 acceleration.y -= coeff;
                 break;
-
+            case Input.Keys.B:
+                if(ball){
+                    ball = false;
+                }else{
+                    ball = true;
+                }
+                break;
         }
         return true;
     }
@@ -119,5 +127,9 @@ public class KeyboardListener implements InputProcessor {
 
     public void resetAcceleration(){
         acceleration = new Vector2(0, 0);
+    }
+
+    public boolean isBall2D() {
+        return ball;
     }
 }

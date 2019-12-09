@@ -1,5 +1,7 @@
 package fr.ul.rollingball.models.balls;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import fr.ul.rollingball.models.GameWorld;
@@ -115,5 +117,10 @@ public abstract class Ball {
 
         circle.dispose();
     }
+
+    public void draw(SpriteBatch spriteBatch) {
+    }
+
+    public abstract void draw(SpriteBatch spriteBatch, OrthographicCamera camera);
 }
 

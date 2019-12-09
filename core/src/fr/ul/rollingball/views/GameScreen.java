@@ -110,7 +110,7 @@ public class GameScreen extends ScreenAdapter {
 
             affichageScore.setProjectionMatrix(cameraTexte.combined);
             affichageScore.begin();
-            affichageScore.draw(texture,Gdx.graphics.getWidth()/2f-texture.getWidth()/2f, Gdx.graphics.getHeight()/2f-texture.getHeight()/2f, texture.getWidth(),texture.getHeight());
+            affichageScore.draw(texture,Gdx.graphics.getWidth()/2f-texture.getWidth()/2f, Gdx.graphics.getHeight()/2f-texture.getHeight()/2f);
             police.draw(affichageScore, textPastilles, Gdx.graphics.getWidth()/2-200, Gdx.graphics.getHeight()/3);
             affichageScore.end();
             if(!createdTimer) {
@@ -159,6 +159,7 @@ public class GameScreen extends ScreenAdapter {
         if (gameWorld.isVictory()){
             gameState.setState(GameState.etat.victoire);
         }
+        gameWorld.setBall(keyboardListener.isBall2D());
     }
 
 
@@ -218,5 +219,9 @@ public class GameScreen extends ScreenAdapter {
         }else{
             reset();
         }
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
     }
 }

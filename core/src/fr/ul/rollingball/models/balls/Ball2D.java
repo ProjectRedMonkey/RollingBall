@@ -1,5 +1,6 @@
 package fr.ul.rollingball.models.balls;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.rollingball.dataFactories.TextureFactory;
@@ -28,4 +29,10 @@ public class Ball2D extends Ball {
                     (float)getRayon()*2,(float)getRayon()*2);
         spriteBatch.end();
     }
+
+    @Override
+    public void draw(SpriteBatch spriteBatch, OrthographicCamera camera) {
+
+    }
+
 }

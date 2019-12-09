@@ -8,6 +8,9 @@ public class GestureListener implements GestureDetector.GestureListener {
     private boolean gesture;
     private Vector2 acceleration;
 
+    /**
+     * Gère tous les mouvements de souris/doigt
+     */
     public GestureListener(){
         acceleration = new Vector2();
         gesture = false;
