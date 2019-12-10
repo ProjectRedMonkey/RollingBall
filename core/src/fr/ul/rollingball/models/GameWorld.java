@@ -96,8 +96,9 @@ public class GameWorld {
         }else{
             if(ball2D instanceof Ball2D) {
                 world.destroyBody(ball2D.getBody());
-                ball2D = new Ball3D(this, ball2D.getPosition());
+                ball2D = new Ball3D(this, ball2D.getPosition(), (Ball2D) ball2D, gameScreen.getCamera());
             }
+            ball2D.draw(spriteBatch);
         }
         for(Pastille pastille : listePastilles){
             pastille.draw(spriteBatch);
@@ -157,6 +158,10 @@ public class GameWorld {
 
     public boolean estJeuFini(){
         return jeuFini;
+    }
+
+    public void setJeuFini(boolean jeuFini) {
+        this.jeuFini = jeuFini;
     }
 
     public GameScreen getGameScreen() {

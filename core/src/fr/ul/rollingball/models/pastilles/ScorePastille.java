@@ -47,5 +47,6 @@ public class ScorePastille extends Pastille {
     public void effet() {
         SoundFactory.getInstance().playPastille(20);
         getGameWorld().getGameScreen().augmenterScore();
+        getGameWorld().getGameScreen().ajouterTemps(1);
     }
 }

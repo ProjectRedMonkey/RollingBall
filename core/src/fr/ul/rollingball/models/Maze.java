@@ -93,19 +93,19 @@ public class Maze {
                     listePastilles.add(new ScorePastille(new Vector2(i/12.8f,gameWorld.getHeight()-(j/(12f))),gameWorld));
                     //On colorie en blanc le reste de la pastille pour ne pas la compter plusieurs fois
                     pixmap.setColor(Color.WHITE);
-                    pixmap.fillCircle(i+5, j+5, 9);
+                    pixmap.fillCircle(i+5, j+1, 5);
                 }
                 //Pastille taille
                 else if(niveauGris == 200){
                     listePastilles.add(new SizePastille(new Vector2(i/(12.8f),gameWorld.getHeight()-j/12f),gameWorld));
                     pixmap.setColor(Color.WHITE);
-                    pixmap.fillCircle(i+5, j+5, 9);
+                    pixmap.fillCircle(i+5, j+1, 5);
                 }
                 //Pastille temps
                 else if(niveauGris == 225){
                     listePastilles.add(new TimePastille(new Vector2(i/(12.8f),gameWorld.getHeight()-j/(12f)),gameWorld));
                     pixmap.setColor(Color.WHITE);
-                    pixmap.fillCircle(i+5, j+5, 9);
+                    pixmap.fillCircle(i+5, j+1, 5);
                 }
             }
         }

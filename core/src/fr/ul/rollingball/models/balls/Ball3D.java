@@ -20,16 +20,18 @@ import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import fr.ul.rollingball.dataFactories.TextureFactory;
 import fr.ul.rollingball.models.GameWorld;
 
-public class Ball3D extends Ball implements ApplicationListener {
-    private ModelInstance instance;
+public class Ball3D extends Ball {
     private ModelBatch modelBatch = new ModelBatch();
     private ModelInstance boule3D;
     private Environment envnt = new Environment();
-    private PerspectiveCamera cam;
-    private CameraInputController camController;
+    private OrthographicCamera cam;
+    private Quaternion rotation;
+    private Timer.Task decompte;
+    private int temps = 0;
 
 
     /**
@@ -38,82 +40,53 @@ public class Ball3D extends Ball implements ApplicationListener {
      * @param gameWorld monde de la bille
      * @param position  position de la bille
      */
-    public Ball3D(GameWorld gameWorld, Vector2 position) {
+    public Ball3D(GameWorld gameWorld, Vector2 position, Ball2D ball, OrthographicCamera camera) {
         super(gameWorld, position);
-    }
-
-
-    @Override
-    public void create() {
         modelBatch = new ModelBatch();
 
-        // Instance du modèle de la boule 3D
-        ModelBuilder mb = new ModelBuilder();
-        // Création d’un modèle de sphère avec une texture associée
-        Model modele = mb.createSphere(2, 2, 2, 40, 40, new Material(TextureAttribute.createDiffuse(TextureFactory.getInstance().getTextureBille2D())),
-                VertexAttributes.Usage.Position| VertexAttributes.Usage.Normal|VertexAttributes.Usage.TextureCoordinates);
-        boule3D = new ModelInstance(modele);
-
-        cam = new PerspectiveCamera(67, 80, 60);
-        cam.position.set(1f, 1f, 1f);
-        cam.lookAt(0,0,0);
-        cam.near = 1f;
-        cam.far = 300f;
+        cam = camera;
         cam.update();
 
-        camController = new CameraInputController(cam);
-
         ModelLoader loader = new ObjLoader();
-        modele = loader.loadModel(Gdx.files.internal("models/sphere.obj"));
-        instance = new ModelInstance(modele);
+        Model modele = loader.loadModel(Gdx.files.internal("models/sphere.obj"));
+        boule3D = new ModelInstance(modele);
 
-
-
-        //Lumière d’ambiance (blanche avec intensitémoyenne)
+        //Lumière d’ambiance (blanche avec intensité moyenne)
         ColorAttribute ambiance = new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1f);
         // Lumière spéculaire verte(réflection de la lumière sur l’objet)
         ColorAttribute speculaire= new ColorAttribute(ColorAttribute.Specular, 0.0f, 0.7f, 0.0f, 1f);
         // Affectation des attributs à l’environnement
         envnt.set(ambiance, speculaire);
-        // Ajoutd’une lumière directionnelle(couleur+ direction)
+        // Ajout d’une lumière directionnelle (couleur + direction)
         envnt.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, 1f, -0.2f));
 
-        Quaternion rotation = new Quaternion();
+        rotation = new Quaternion();
 
-        Quaternion rotLoc= new Quaternion();
-        rotLoc.set(new Vector3(getPosition().x, getPosition().y, 0).nor(), 5f * 1f/ getRayon());
-        rotation.mulLeft(rotLoc);
-
-        boule3D.transform.set(new Vector3(getPosition().x, getPosition().y, 5) ,rotation);
+        Timer timer = new Timer();
+        decompte = new Timer.Task() {
+            @Override
+            public void run() {
+                countDown();
+            }
+        };
+        timer.scheduleTask(decompte, 1f, 1f);
     }
 
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void render() {
-        camController.update();
+    public void draw(SpriteBatch spriteBatch){
+        cam.update();
         Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 
         modelBatch.begin(cam);
+        Quaternion rotLoc= new Quaternion();
+        rotLoc.set(new Vector3(0, 0, 0).nor(), new Vector3(getPosition().x, getPosition().y, 0).len() * temps/ getRayon());
+        rotation.mulLeft(rotLoc);
+        boule3D.transform.set(new Vector3(getPosition().x, getPosition().y, 0) , rotation);
         modelBatch.render(boule3D, envnt);
         modelBatch.end();
-    }
-
-    @Override
-    public void pause() {
 
     }
 
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void dispose() {
-
+    private void countDown(){
+        temps++;
     }
 }

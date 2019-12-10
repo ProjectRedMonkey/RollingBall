@@ -51,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
      * Ecran de jeu
      */
     public GameScreen(){
+        SoundFactory.getInstance().playFond(15);
         affichageJeu = new SpriteBatch();
         gameWorld = new GameWorld(this);
         camera = new OrthographicCamera();
@@ -224,8 +225,13 @@ public class GameScreen extends ScreenAdapter {
     public void changeLaby(){
         keyboardListener.resetAcceleration();
         if(gameState.isVictory()){
-            ajouterTemps(20);
-            gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+            if(gameWorld.estJeuFini()){
+                gameWorld.setJeuFini(false);
+                reset();
+            }else {
+                ajouterTemps(20);
+                gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+            }
         }else{
             reset();
         }
