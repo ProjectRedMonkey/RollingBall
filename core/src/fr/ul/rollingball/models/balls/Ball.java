@@ -93,7 +93,9 @@ public abstract class Ball {
         }else{
             rayon = rayonGrand;
         }
-        createBody(rayon, this.getPosition());
+        Shape shape = body.getFixtureList().first().getShape();
+        shape.setRadius(rayon);
+
     }
 
     private void createBody(float rayon, Vector2 position){
@@ -120,7 +122,5 @@ public abstract class Ball {
 
     public void draw(SpriteBatch spriteBatch) {
     }
-
-    public abstract void draw(SpriteBatch spriteBatch, OrthographicCamera camera);
 }
 

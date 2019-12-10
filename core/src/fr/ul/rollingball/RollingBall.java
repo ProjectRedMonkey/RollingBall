@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Timer;
 import fr.ul.rollingball.controllers.KeyboardListener;
+import fr.ul.rollingball.models.balls.Ball3D;
 import fr.ul.rollingball.views.GameScreen;
 import fr.ul.rollingball.views.SplashScreen;
 

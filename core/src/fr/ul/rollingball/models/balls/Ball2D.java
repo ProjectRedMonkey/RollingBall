@@ -29,10 +29,4 @@ public class Ball2D extends Ball {
                     (float)getRayon()*2,(float)getRayon()*2);
         spriteBatch.end();
     }
-
-    @Override
-    public void draw(SpriteBatch spriteBatch, OrthographicCamera camera) {
-
-    }
-
 }

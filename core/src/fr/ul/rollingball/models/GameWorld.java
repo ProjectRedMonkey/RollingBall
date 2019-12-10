@@ -98,7 +98,6 @@ public class GameWorld {
                 world.destroyBody(ball2D.getBody());
                 ball2D = new Ball3D(this, ball2D.getPosition());
             }
-            ball2D.draw(spriteBatch, getGameScreen().getCamera());
         }
         for(Pastille pastille : listePastilles){
             pastille.draw(spriteBatch);

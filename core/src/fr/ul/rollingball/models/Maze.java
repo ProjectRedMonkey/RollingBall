@@ -124,7 +124,7 @@ public class Maze {
         int couleurVoisin3 = pixmap.getPixel(i, j+1)&255;
         int couleurVoisin4 = pixmap.getPixel(i, j-1)&255;
         //Si l'un des voisins du mur est vide
-        if(couleurVoisin1 == 255 || couleurVoisin2 == 255 || couleurVoisin3 == 255 || couleurVoisin4 == 255){
+        if(couleurVoisin1 != 0 || couleurVoisin2 != 0 || couleurVoisin3 != 0 || couleurVoisin4 != 0){
             BodyDef bodyDef = new BodyDef();
             bodyDef.position.set((float) i/(12.8f),gameWorld.getHeight()-j/12f);
             bodyDef.type = BodyDef.BodyType.StaticBody;
@@ -231,6 +231,10 @@ public class Maze {
      */
     public Texture getTextureLabyrinthe() {
         return textureLabyrinthe;
+    }
+
+    public ArrayList<Body> getListeBriques() {
+        return listeBriques;
     }
 }
 

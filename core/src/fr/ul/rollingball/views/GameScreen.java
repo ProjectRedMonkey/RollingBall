@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
@@ -100,6 +102,7 @@ public class GameScreen extends ScreenAdapter {
         }else if (gameState.isStop()){
             Gdx.app.exit();
         }else{
+            gameWorld.draw(affichageJeu);
             if(gameState.isVictory()) {
                 texture = TextureFactory.getInstance().getVictoire();
                 textPastilles = "Pastilles avalées : "+gameState.getNbPastillesAvalees();
@@ -136,6 +139,8 @@ public class GameScreen extends ScreenAdapter {
 
         //Utilisé pour voir la hitbox des bodies
         if(keyboardListener.isDebug()) {
+            Gdx.gl.glClearColor(0.20f, 0.20f, 0.20f, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
             box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
         }
@@ -167,8 +172,13 @@ public class GameScreen extends ScreenAdapter {
         for (Pastille pastille:gameWorld.getListePastilles()) {
             gameWorld.getWorld().destroyBody(pastille.getBody());
         }
+        for (Body brique: gameWorld.getMaze().getListeBriques()) {
+            gameWorld.getWorld().destroyBody(brique);
+        }
+        gameWorld.getMaze().getListeBriques().clear();
         gameWorld.getListePastilles().clear();
         gameWorld.setMaze(new Maze(gameWorld));
+        gameWorld.getWorld().destroyBody(gameWorld.getBall2D().getBody());
         gameWorld.getMaze().loadLaby(gameWorld.getListePastilles());
         resetScore();
         ajouterTemps(dureeDuJeu);
