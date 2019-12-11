@@ -23,6 +23,7 @@ public class GameWorld {
     private boolean jeuFini;
     private GameScreen gameScreen;
     private boolean ball = false;
+    private boolean tampon = true;
 
     /**
      * Représente le monde dans lequel on joue
@@ -86,6 +87,11 @@ public class GameWorld {
      * @param spriteBatch spriteBatch de GameScreen
      */
     public void draw(SpriteBatch spriteBatch){
+        if(tampon != gameScreen.getGestureListener().isMur()) {
+            maze.setMurDeBase(gameScreen.getGestureListener().isMur());
+            maze.setChangementMurs(true);
+            tampon = gameScreen.getGestureListener().isMur();
+        }
         maze.draw(spriteBatch);
         if(ball) {
             if(ball2D instanceof Ball3D) {

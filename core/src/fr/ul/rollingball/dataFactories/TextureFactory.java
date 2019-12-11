@@ -14,6 +14,7 @@ public class TextureFactory {
     private Texture laby;
     private Texture victoire;
     private Texture perdu;
+    private Texture mursCristal;
 
     /**
      * Regroupe toutes les textures
@@ -28,6 +29,7 @@ public class TextureFactory {
         murs = new Texture(Gdx.files.internal("images/Murs.jpg"));
         victoire = new Texture(Gdx.files.internal("images/Bravo.bmp"));
         perdu = new Texture(Gdx.files.internal("images/Perte.bmp"));
+        mursCristal = new Texture(Gdx.files.internal("images/Murs_Salih.jpg"));
     }
 
     /**
@@ -99,5 +101,9 @@ public class TextureFactory {
 
     public Texture getPerdu() {
         return perdu;
+    }
+
+    public Texture getMursCristal() {
+        return mursCristal;
     }
 }

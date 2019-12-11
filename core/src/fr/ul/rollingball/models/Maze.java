@@ -24,6 +24,9 @@ public class Maze {
     private ArrayList<Body> listeBriques;
     private boolean billeTrouvee = false;
     private Texture piste = TextureFactory.getInstance().getTexturePiste();
+    private boolean murDeBase = true;
+    private boolean changementMurs = false;
+    private Texture murs = TextureFactory.getInstance().getMurs();
 
     /**
      * Représente un labyrinthe dans lequel se déplace la bille
@@ -41,8 +44,17 @@ public class Maze {
      * @param spriteBatch la liste d'affichage
      */
     public void draw(SpriteBatch spriteBatch){
+        if(changementMurs) {
+            //Pour changer de décors
+            if (murDeBase) {
+                murs = TextureFactory.getInstance().getMurs();
+            }else{
+                murs = TextureFactory.getInstance().getMursCristal();
+            }
+            buildTexLaby();
+            changementMurs = false;
+        }
         spriteBatch.begin();
-        spriteBatch.draw(TextureFactory.getInstance().getMurs(),0,0, gameWorld.getWidth(),gameWorld.getHeight());
         spriteBatch.draw(decor, 0, 0, gameWorld.getWidth(), gameWorld.getHeight());
         spriteBatch.end();
     }
@@ -160,7 +172,6 @@ public class Maze {
         }
         Pixmap pixmapPiste = piste.getTextureData().consumePixmap();
 
-        Texture murs= TextureFactory.getInstance().getMurs();
         if (!murs.getTextureData().isPrepared()) {
             murs.getTextureData().prepare();
         }
@@ -235,6 +246,14 @@ public class Maze {
 
     public ArrayList<Body> getListeBriques() {
         return listeBriques;
+    }
+
+    public void setMurDeBase(boolean murDeBase) {
+        this.murDeBase = murDeBase;
+    }
+
+    public void setChangementMurs(boolean changementMurs) {
+        this.changementMurs = changementMurs;
     }
 }
 

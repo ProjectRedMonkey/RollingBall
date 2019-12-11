@@ -42,13 +42,6 @@ public class KeyboardListener implements InputProcessor {
             case Input.Keys.DOWN:
                 acceleration.y -= coeff;
                 break;
-            case Input.Keys.B:
-                if(ball){
-                    ball = false;
-                }else{
-                    ball = true;
-                }
-                break;
         }
         return true;
     }
@@ -61,6 +54,13 @@ public class KeyboardListener implements InputProcessor {
                     debug = false;
                 } else {
                     debug = true;
+                }
+                break;
+            case Input.Keys.B:
+                if(ball){
+                    ball = false;
+                }else{
+                    ball = true;
                 }
                 break;
             case Input.Keys.RIGHT:

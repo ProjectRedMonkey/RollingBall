@@ -145,8 +145,6 @@ public class GameScreen extends ScreenAdapter {
             Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
             box2DDebugRenderer.render(gameWorld.getWorld(), camera.combined);
         }
-
-
     }
 
     /**
@@ -154,21 +152,26 @@ public class GameScreen extends ScreenAdapter {
      */
     public void update(){
         acc = new Vector2(gestureListener.getAcceleration());
+        //Si on est sur téléphone
         if(Gdx.input.isPeripheralAvailable( Input.Peripheral.Accelerometer )) {
-            gameWorld.getBall2D().applyForce(new Vector2(Gdx.input.getAccelerometerY()*20f+acc.x,
-                    -(Gdx.input.getAccelerometerX()*20f)+acc.y));
+            gameWorld.getBall2D().applyForce(new Vector2(Gdx.input.getAccelerometerY()*100f+acc.x,
+                    -(Gdx.input.getAccelerometerX()*100f)+acc.y));
+            gameWorld.setBall(gestureListener.isBall());
         }else {
             gameWorld.getBall2D().applyForce(new Vector2(keyboardListener.getAcceleration().x + acc.x, keyboardListener.getAcceleration().y + acc.y));
+            gameWorld.setBall(keyboardListener.isBall2D());
         }
         gameWorld.getWorld().step(Gdx.graphics.getDeltaTime(), 6, 2);
         gameWorld.updatePastilles();
         if (gameWorld.isVictory()){
             gameState.setState(GameState.etat.victoire);
         }
-        gameWorld.setBall(keyboardListener.isBall2D());
     }
 
 
+    /**
+     * Relance le jeu à zéro
+     */
     public void reset(){
         for (Pastille pastille:gameWorld.getListePastilles()) {
             gameWorld.getWorld().destroyBody(pastille.getBody());
@@ -235,6 +238,10 @@ public class GameScreen extends ScreenAdapter {
         }else{
             reset();
         }
+    }
+
+    public GestureListener getGestureListener() {
+        return gestureListener;
     }
 
     public OrthographicCamera getCamera() {

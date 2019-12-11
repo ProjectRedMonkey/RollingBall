@@ -7,6 +7,8 @@ public class GestureListener implements GestureDetector.GestureListener {
     private static int coeff = 5;
     private boolean gesture;
     private Vector2 acceleration;
+    private boolean ball = true;
+    private boolean mur = true;
 
     /**
      * Gère tous les mouvements de souris/doigt
@@ -32,12 +34,22 @@ public class GestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        return false;
+        if(ball){
+            ball = false;
+        }else{
+            ball = true;
+        }
+        return true;
     }
 
     @Override
     public boolean longPress(float x, float y) {
-        return false;
+        if (mur) {
+            mur = false;
+        } else {
+            mur = true;
+        }
+        return true;
     }
 
     @Override
@@ -70,5 +82,13 @@ public class GestureListener implements GestureDetector.GestureListener {
     @Override
     public void pinchStop() {
 
+    }
+
+    public boolean isBall() {
+        return ball;
+    }
+
+    public boolean isMur() {
+        return mur;
     }
 }
