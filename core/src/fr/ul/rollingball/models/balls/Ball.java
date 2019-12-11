@@ -82,11 +82,18 @@ public abstract class Ball {
         return body;
     }
 
+    /**
+     * Change la position de la bille
+     * @param position
+     */
     public void setPosition(Vector2 position){
         rayon = rayonGrand;
         createBody(rayon, position);
     }
 
+    /**
+     * Change la taille de la bille selon sa taille actuelle
+     */
     public void changeSize(){
         if(rayon == rayonGrand){
             rayon = rayonPetit;
@@ -98,6 +105,11 @@ public abstract class Ball {
 
     }
 
+    /**
+     * Recréé un body pour la bille
+     * @param rayon de la bille
+     * @param position de la bille
+     */
     private void createBody(float rayon, Vector2 position){
         gameWorld.getWorld().destroyBody(this.getBody());
         bodyDef = new BodyDef();

@@ -72,6 +72,10 @@ public class Ball3D extends Ball {
         timer.scheduleTask(decompte, 1f, 1f);
     }
 
+    /**
+     * Affiche la ball3D
+     * @param spriteBatch sur lequel l'afficher
+     */
     public void draw(SpriteBatch spriteBatch){
         cam.update();
         Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);

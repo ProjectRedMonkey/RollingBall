@@ -48,7 +48,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     /**
-     * Ecran de jeu
+     * Ecran principal du jeu
      */
     public GameScreen(){
         SoundFactory.getInstance().playFond(15);
@@ -202,10 +202,17 @@ public class GameScreen extends ScreenAdapter {
         return gameState.getEtatActuel();
     }
 
+    /**
+     * Ajoute une portion de temps au temps restant
+     * @param sec temps à ajouter
+     */
     public void ajouterTemps(int sec){
         gameState.setTempsRestant(gameState.getTempsRestant()+sec);
     }
 
+    /**
+     * Augmente le score de 1
+     */
     public void augmenterScore(){
         gameState.setScore(gameState.getScore()+1);
         augmenterPastillesAvalees();
@@ -215,16 +222,26 @@ public class GameScreen extends ScreenAdapter {
         gameState.setNbPastillesAvalees(gameState.getNbPastillesAvalees()+1);
     }
 
+    /**
+     * Remet le score à 0
+     */
     public void resetScore(){
         gameState.setScore(0);
     }
 
+
+    /**
+     * Préviens que l'écran de jeu se lance
+     */
     @Override
     public void show() {
         super.show();
         gameState.setState(GameState.etat.enCours);
     }
 
+    /**
+     * Change de labyrinthe
+     */
     public void changeLaby(){
         keyboardListener.resetAcceleration();
         if(gameState.isVictory()){

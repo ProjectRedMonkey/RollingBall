@@ -112,6 +112,9 @@ public class GameWorld {
     }
 
 
+    /**
+     * Efface les pastilles ramassées
+     */
     public void updatePastilles(){
         Iterator<Pastille> it = listePastilles.iterator();
         while(it.hasNext()) {
@@ -124,20 +127,19 @@ public class GameWorld {
         }
     }
 
+    ///////////////////////////
+    /////GETTERS et SETTERS////
+    ///////////////////////////
+
     public boolean isVictory(){
         return ball2D.isOut();
     }
 
-    /**
-     * @return la largeur de notre monde
-     */
+
     public int getWidth() {
         return width;
     }
 
-    /**
-     * @return la hauteur de notre monde
-     */
     public int getHeight() {
         return height;
     }
