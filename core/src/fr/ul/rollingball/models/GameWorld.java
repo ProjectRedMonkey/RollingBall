@@ -1,6 +1,7 @@
 package fr.ul.rollingball.models;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import fr.ul.rollingball.models.balls.Ball;
@@ -24,6 +25,7 @@ public class GameWorld {
     private GameScreen gameScreen;
     private boolean ball = false;
     private boolean tampon = true;
+    private ModelBatch modelBatch;
 
     /**
      * Représente le monde dans lequel on joue
@@ -36,6 +38,7 @@ public class GameWorld {
         listePastilles  = new ArrayList<>();
         maze.loadLaby(listePastilles);
         ball2D = new Ball2D(this, maze.getPositionInitialeBille());
+        modelBatch = new ModelBatch();
         contact = new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
@@ -102,9 +105,11 @@ public class GameWorld {
         }else{
             if(ball2D instanceof Ball2D) {
                 world.destroyBody(ball2D.getBody());
-                ball2D = new Ball3D(this, ball2D.getPosition(), (Ball2D) ball2D, gameScreen.getCamera());
+                ball2D = new Ball3D(this, ball2D.getPosition());
             }
-            ball2D.draw(spriteBatch);
+            modelBatch.begin(gameScreen.getCamera());
+            ball2D.draw(modelBatch);
+            modelBatch.end();
         }
         for(Pastille pastille : listePastilles){
             pastille.draw(spriteBatch);

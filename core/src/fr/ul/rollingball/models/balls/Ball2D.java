@@ -2,6 +2,7 @@ package fr.ul.rollingball.models.balls;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.rollingball.dataFactories.TextureFactory;
 import fr.ul.rollingball.models.GameWorld;
@@ -28,5 +29,10 @@ public class Ball2D extends Ball {
                         ,this.getPosition().x-getRayon(), this.getPosition().y-getRayon(),
                     (float)getRayon()*2,(float)getRayon()*2);
         spriteBatch.end();
+    }
+
+    @Override
+    public void draw(ModelBatch modelBatch) {
+
     }
 }
