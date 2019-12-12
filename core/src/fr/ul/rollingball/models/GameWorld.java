@@ -56,7 +56,7 @@ public class GameWorld {
                     ((Pastille) pastilleFixture.getBody().getUserData()).setPicked(true);
                 }
                 if(pastilleFixture.getBody().getUserData() == "M"){
-                    SoundFactory.getInstance().playRebond(5);
+                    SoundFactory.getInstance().playRebond(2);
                 }
             }
 

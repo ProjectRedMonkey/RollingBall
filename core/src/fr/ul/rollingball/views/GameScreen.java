@@ -134,7 +134,7 @@ public class GameScreen extends ScreenAdapter {
                         SoundFactory.getInstance().playFond(10);
                     }
                 };
-                timer.scheduleTask(task, 3);
+                timer.scheduleTask(task, 4);
             }
         }
 
@@ -186,6 +186,7 @@ public class GameScreen extends ScreenAdapter {
         gameWorld.getWorld().destroyBody(gameWorld.getBall2D().getBody());
         gameWorld.getMaze().loadLaby(gameWorld.getListePastilles());
         resetScore();
+        resetTemps();
         ajouterTemps(dureeDuJeu);
         gameWorld.setBall2D(new Ball2D(gameWorld, gameWorld.getMaze().getPositionInitialeBille()));
     }
@@ -205,6 +206,10 @@ public class GameScreen extends ScreenAdapter {
      */
     public void ajouterTemps(int sec){
         gameState.setTempsRestant(gameState.getTempsRestant()+sec);
+    }
+
+    public void resetTemps(){
+        gameState.setTempsRestant(0);
     }
 
     /**
@@ -249,7 +254,6 @@ public class GameScreen extends ScreenAdapter {
                 gameWorld.setJeuFini(false);
                 reset();
             }else {
-                ajouterTemps(20);
                 gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
             }
         }else{
