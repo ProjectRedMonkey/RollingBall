@@ -1,7 +1,7 @@
 Here what you need to know before starting the game :
 
 You have time to end it, so make it quickly but the goal is to have the higher score possible.
-Yellow pill increase you score and time by one.
+Yellow pill increase your score and time by one.
 Green pill change your size.
 Blue pill add you some time.
 You earn time by changing maze aswell.
