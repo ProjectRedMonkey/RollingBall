@@ -88,10 +88,6 @@ public class GameState {
         return tempsDispo;
     }
 
-    public static void setTempsDispo(int tempsDispo) {
-        GameState.tempsDispo = tempsDispo;
-    }
-
     public int getTempsRestant() {
         return tempsRestant;
     }
@@ -106,9 +102,5 @@ public class GameState {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public etat getEtatActuel() {
-        return etatActuel;
     }
 }

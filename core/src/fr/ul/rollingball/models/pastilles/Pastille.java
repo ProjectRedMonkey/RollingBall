@@ -35,6 +35,10 @@ public abstract class Pastille {
         circle.dispose();
     }
 
+    ///////////////////////////
+    /////GETTERS et SETTERS////
+    ///////////////////////////
+
     /**
      * @return le corps physique de la pastille
      */
@@ -45,14 +49,14 @@ public abstract class Pastille {
     /**
      * @return le rayon de la pastille
      */
-    public float getRayon() {
+    float getRayon() {
         return rayon;
     }
 
     /**
      * @return la position de la pastille
      */
-    public Vector2 getPosition() {
+    Vector2 getPosition() {
         return position;
     }
 
@@ -76,7 +80,7 @@ public abstract class Pastille {
      */
     public abstract void draw(SpriteBatch spriteBatch);
 
-    public GameWorld getGameWorld() {
+    GameWorld getGameWorld() {
         return gameWorld;
     }
 

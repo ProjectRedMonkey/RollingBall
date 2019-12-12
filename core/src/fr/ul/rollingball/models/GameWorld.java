@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class GameWorld {
-    private int width = 80;
-    private int height = 60;
+    private float width = 80;
+    private float height = 60;
     private Ball ball2D;
     private World world;
     private ArrayList<Pastille> listePastilles;
@@ -41,6 +41,8 @@ public class GameWorld {
         maze.loadLaby(listePastilles);
         ball2D = new Ball2D(this, maze.getPositionInitialeBille());
         modelBatch = new ModelBatch();
+
+        //Gère les collisions
         contact = new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
@@ -154,11 +156,11 @@ public class GameWorld {
     }
 
 
-    public int getWidth() {
+    public float getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    public float getHeight() {
         return height;
     }
 
@@ -178,7 +180,7 @@ public class GameWorld {
         return listePastilles;
     }
 
-    public void jeuFini(){
+    void jeuFini(){
         jeuFini = true;
     }
 

@@ -1,6 +1,5 @@
 package fr.ul.rollingball.models.balls;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -8,9 +7,9 @@ import com.badlogic.gdx.physics.box2d.*;
 import fr.ul.rollingball.models.GameWorld;
 
 public abstract class Ball {
-    private float rayonGrand = 80/50.0f;
-    private float rayonPetit = 80/100.0f;
-    private float rayon = 80/50.0f;
+    private float rayonGrand;
+    private float rayonPetit;
+    private float rayon;
     private Body body;
     private FixtureDef fixtureDef;
     private BodyDef bodyDef;
@@ -23,6 +22,9 @@ public abstract class Ball {
      */
     public Ball(GameWorld gameWorld,Vector2 position){
         this.gameWorld = gameWorld;
+        rayonGrand= 1f/50.0f*gameWorld.getWidth();
+        rayonPetit = rayonGrand/2f;
+        rayon = rayonGrand;
         bodyDef = new BodyDef();
         bodyDef.position.set(position);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -64,7 +66,7 @@ public abstract class Ball {
     /**
      * @return le rayon de la bille
      */
-    public float getRayon(){
+    float getRayon(){
         return rayon;
     }
 
@@ -136,11 +138,11 @@ public abstract class Ball {
 
     public abstract void draw(ModelBatch modelBatch);
 
-    public float getRayonGrand() {
+    float getRayonGrand() {
         return rayonGrand;
     }
 
-    public float getRayonPetit() {
+    float getRayonPetit() {
         return rayonPetit;
     }
 

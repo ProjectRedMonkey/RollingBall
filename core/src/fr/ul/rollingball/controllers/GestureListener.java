@@ -34,21 +34,13 @@ public class GestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean tap(float x, float y, int count, int button) {
-        if(ball){
-            ball = false;
-        }else{
-            ball = true;
-        }
+        ball = !ball;
         return true;
     }
 
     @Override
     public boolean longPress(float x, float y) {
-        if (mur) {
-            mur = false;
-        } else {
-            mur = true;
-        }
+        mur = !mur;
         return true;
     }
 
@@ -83,6 +75,10 @@ public class GestureListener implements GestureDetector.GestureListener {
     public void pinchStop() {
 
     }
+
+    ///////////////////////////
+    /////GETTERS et SETTERS////
+    ///////////////////////////
 
     public boolean isBall() {
         return ball;

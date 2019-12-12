@@ -1,12 +1,10 @@
 package fr.ul.rollingball.models.balls;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.math.Vector2;
 import fr.ul.rollingball.dataFactories.TextureFactory;
 import fr.ul.rollingball.models.GameWorld;
-import fr.ul.rollingball.models.balls.Ball;
 
 public class Ball2D extends Ball {
 
@@ -27,7 +25,7 @@ public class Ball2D extends Ball {
         spriteBatch.begin();
         spriteBatch.draw(TextureFactory.getInstance().getTextureBille2D()
                         ,this.getPosition().x-getRayon(), this.getPosition().y-getRayon(),
-                    (float)getRayon()*2,(float)getRayon()*2);
+                    getRayon()*2,getRayon()*2);
         spriteBatch.end();
     }
 
@@ -38,10 +36,6 @@ public class Ball2D extends Ball {
 
     @Override
     public boolean isGrand() {
-        if(getRayon() == getRayonGrand()){
-            return true;
-        }else{
-            return false;
-        }
+        return getRayon() == getRayonGrand();
     }
 }

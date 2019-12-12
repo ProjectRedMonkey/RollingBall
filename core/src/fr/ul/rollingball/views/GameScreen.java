@@ -15,7 +15,6 @@ import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Timer;
 import fr.ul.rollingball.controllers.GestureListener;
 import fr.ul.rollingball.controllers.KeyboardListener;
@@ -198,10 +197,6 @@ public class GameScreen extends ScreenAdapter {
         affichageScore.dispose();
     }
 
-    public GameState.etat getEtatDuJeu() {
-        return gameState.getEtatActuel();
-    }
-
     /**
      * Ajoute une portion de temps au temps restant
      * @param sec temps à ajouter
@@ -218,6 +213,9 @@ public class GameScreen extends ScreenAdapter {
         augmenterPastillesAvalees();
     }
 
+    /**
+     * Augmente le nombre de pastille score que le joueur a ramassé
+     */
     public void augmenterPastillesAvalees(){
         gameState.setNbPastillesAvalees(gameState.getNbPastillesAvalees()+1);
     }
@@ -256,6 +254,10 @@ public class GameScreen extends ScreenAdapter {
             reset();
         }
     }
+
+    ///////////////////////////
+    /////GETTERS et SETTERS////
+    ///////////////////////////
 
     public GestureListener getGestureListener() {
         return gestureListener;

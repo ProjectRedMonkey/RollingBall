@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class KeyboardListener implements InputProcessor {
     private static int coeff = 200;
-    private boolean quit;
     private boolean debug;
     private Vector2 acceleration;
     private boolean ball;
@@ -15,7 +14,6 @@ public class KeyboardListener implements InputProcessor {
     //Permet de gérer les touches via clavier (uniquement pour la version Desktop)
     public KeyboardListener(){
         debug = false;
-        quit =  false;
         acceleration = new Vector2(0, 0);
         ball = true;
     }
@@ -25,8 +23,6 @@ public class KeyboardListener implements InputProcessor {
         switch (keycode)
         {
             case Input.Keys.ESCAPE:
-                Gdx.app.exit();
-                break;
             case Input.Keys.Q:
                 Gdx.app.exit();
                 break;
@@ -50,28 +46,16 @@ public class KeyboardListener implements InputProcessor {
     public boolean keyUp(int keycode) {
         switch (keycode) {
             case Input.Keys.D:
-                if (debug) {
-                    debug = false;
-                } else {
-                    debug = true;
-                }
+                debug = !debug;
                 break;
             case Input.Keys.B:
-                if(ball){
-                    ball = false;
-                }else{
-                    ball = true;
-                }
+                ball = !ball;
                 break;
             case Input.Keys.RIGHT:
-                acceleration.x = 0;
-                break;
             case Input.Keys.LEFT:
                 acceleration.x = 0;
                 break;
             case Input.Keys.UP:
-                acceleration.y = 0;
-                break;
             case Input.Keys.DOWN:
                 acceleration.y = 0;
                 break;
@@ -109,16 +93,12 @@ public class KeyboardListener implements InputProcessor {
         return false;
     }
 
-    public int getCoeff() {
-        return coeff;
-    }
+    ///////////////////////////
+    /////GETTERS et SETTERS////
+    ///////////////////////////
 
     public boolean isDebug() {
         return debug;
-    }
-
-    public boolean isQuit() {
-        return quit;
     }
 
     public Vector2 getAcceleration() {

@@ -82,6 +82,8 @@ public class Maze {
      * @param masque du labyrinthe à  utiliser
      */
     private void readObjects(Texture masque, ArrayList<Pastille> listePastilles){
+        float ratioLargeur = masque.getWidth()/gameWorld.getWidth();
+        float ratioHauteur = masque.getHeight()/gameWorld.getHeight();
         if (!masque.getTextureData().isPrepared()) {
             masque.getTextureData().prepare();
         }
@@ -97,25 +99,25 @@ public class Maze {
                 }
                 //Bille
                 else if(niveauGris == 100 && !billeTrouvee){
-                    positionInitialeBille = new Vector2(j/(12.8f),gameWorld.getHeight()-(i/(12f)));
+                    positionInitialeBille = new Vector2(j/(ratioLargeur),gameWorld.getHeight()-(i/(ratioHauteur)));
                     billeTrouvee = true;
                 }
                 //Pastille normale
                 else if(niveauGris == 128){
-                    listePastilles.add(new ScorePastille(new Vector2(i/12.8f,gameWorld.getHeight()-(j/(12f))),gameWorld));
+                    listePastilles.add(new ScorePastille(new Vector2(i/ratioLargeur,gameWorld.getHeight()-(j/(ratioHauteur))), gameWorld));
                     //On colorie en blanc le reste de la pastille pour ne pas la compter plusieurs fois
                     pixmap.setColor(Color.WHITE);
                     pixmap.fillCircle(i+5, j+1, 5);
                 }
                 //Pastille taille
                 else if(niveauGris == 200){
-                    listePastilles.add(new SizePastille(new Vector2(i/(12.8f),gameWorld.getHeight()-j/12f),gameWorld));
+                    listePastilles.add(new SizePastille(new Vector2(i/(ratioLargeur),gameWorld.getHeight()-j/ratioHauteur), gameWorld));
                     pixmap.setColor(Color.WHITE);
                     pixmap.fillCircle(i+5, j+1, 5);
                 }
                 //Pastille temps
                 else if(niveauGris == 225){
-                    listePastilles.add(new TimePastille(new Vector2(i/(12.8f),gameWorld.getHeight()-j/(12f)),gameWorld));
+                    listePastilles.add(new TimePastille(new Vector2(i/(ratioLargeur),gameWorld.getHeight()-j/(ratioHauteur)), gameWorld));
                     pixmap.setColor(Color.WHITE);
                     pixmap.fillCircle(i+5, j+1, 5);
                 }
@@ -161,7 +163,7 @@ public class Maze {
     /**
      * Construit graphiquement le labyrinthe
      */
-    public void buildTexLaby(){
+    private void buildTexLaby(){
         if (!textureLabyrinthe.getTextureData().isPrepared()) {
             textureLabyrinthe.getTextureData().prepare();
         }
@@ -202,7 +204,7 @@ public class Maze {
     /**
      * Passe au labyrinthe suivant
      */
-    public void nextLaby(){
+    private void nextLaby(){
         if(numLabyrinthe < 5) {
             numLabyrinthe++;
         }else{
@@ -231,30 +233,24 @@ public class Maze {
         gameWorld.getBall2D().resetSize();
     }
 
-    /**
-     * @return la position initiale de la bille dans le labyrinthe
-     */
+    ///////////////////////////
+    /////GETTERS et SETTERS////
+    ///////////////////////////
+
     public Vector2 getPositionInitialeBille() {
         return positionInitialeBille;
-    }
-
-    /**
-     * @return la texture du labyrinthe
-     */
-    public Texture getTextureLabyrinthe() {
-        return textureLabyrinthe;
     }
 
     public ArrayList<Body> getListeBriques() {
         return listeBriques;
     }
 
-    public void setMurDeBase(boolean murDeBase) {
+    void setMurDeBase(boolean murDeBase) {
         this.murDeBase = murDeBase;
     }
 
-    public void setChangementMurs(boolean changementMurs) {
-        this.changementMurs = changementMurs;
+    void setChangementMurs(boolean changementMur) {
+        this.changementMurs = changementMur;
     }
 }
 

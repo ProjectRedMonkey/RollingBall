@@ -1,15 +1,9 @@
 package fr.ul.rollingball.views;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import fr.ul.rollingball.RollingBall;
 import fr.ul.rollingball.dataFactories.TextureFactory;
-import fr.ul.rollingball.models.GameWorld;
-
 public class SplashScreen extends ScreenAdapter {
     private SpriteBatch intro;
     private OrthographicCamera camera;

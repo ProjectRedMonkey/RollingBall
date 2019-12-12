@@ -79,6 +79,9 @@ public class Ball3D extends Ball {
 
     }
 
+    /**
+     * Change la taille de la bille 3D
+     */
     @Override
     public void changeSize() {
         super.changeSize();
@@ -91,12 +94,18 @@ public class Ball3D extends Ball {
         }
     }
 
+    /**
+     * Change la taille du Body sans changer la texture (en cas de petit malin qui change la bille quand elle est petite)
+     */
     public void changeBody(){
         Shape shape = getBody().getFixtureList().first().getShape();
         shape.setRadius(getRayonPetit());
         grand = false;
     }
 
+    /**
+     * Remet la taille de la bille à grand
+     */
     @Override
     public void resetSize() {
         super.resetSize();
@@ -106,6 +115,9 @@ public class Ball3D extends Ball {
         }
     }
 
+    /**
+     * @return si la bille est grande
+     */
     public boolean isGrand() {
         return grand;
     }
