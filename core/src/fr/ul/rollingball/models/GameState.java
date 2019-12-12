@@ -22,7 +22,7 @@ public class GameState {
      * Permets de gérer le score et le temps de jeu
      */
     public GameState(){
-        tempsDispo = 120;
+        tempsDispo = 60;
         score = 0;
         tempsRestant = tempsDispo;
         nbPastillesAvalees = 0;
