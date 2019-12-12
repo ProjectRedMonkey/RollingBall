@@ -93,4 +93,8 @@ public class SoundFactory {
     public void playRebond(float volume){
         rebond.play(volume/100);
     }
+
+    public void pauseGame(){
+        fond.pause();
+    }
 }

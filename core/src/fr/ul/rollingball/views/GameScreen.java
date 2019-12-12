@@ -118,6 +118,7 @@ public class GameScreen extends ScreenAdapter {
             affichageScore.end();
             if(!createdTimer) {
                 createdTimer = true;
+                SoundFactory.getInstance().pauseGame();
                 if(gameState.isVictory()) {
                     SoundFactory.getInstance().playVictoire(20);
                 }else{
@@ -130,6 +131,7 @@ public class GameScreen extends ScreenAdapter {
                         changeLaby();
                         gameState.setState(GameState.etat.enCours);
                         createdTimer = false;
+                        SoundFactory.getInstance().playFond(10);
                     }
                 };
                 timer.scheduleTask(task, 3);
