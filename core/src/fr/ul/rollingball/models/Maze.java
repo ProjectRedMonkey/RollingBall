@@ -205,7 +205,7 @@ public class Maze {
      * Passe au labyrinthe suivant
      */
     private void nextLaby(){
-        if(numLabyrinthe < 4) {
+        if(numLabyrinthe < 5) {
             numLabyrinthe++;
         }else{
             gameWorld.jeuFini();

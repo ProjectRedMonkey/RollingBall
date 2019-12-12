@@ -250,11 +250,10 @@ public class GameScreen extends ScreenAdapter {
     public void changeLaby(){
         keyboardListener.resetAcceleration();
         if(gameState.isVictory()){
-            if(gameWorld.estJeuFini()){
+            gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
+            if(gameWorld.estJeuFini()) {
                 gameWorld.setJeuFini(false);
                 reset();
-            }else {
-                gameWorld.getMaze().changeLaby(gameWorld.getListePastilles());
             }
         }else{
             reset();
