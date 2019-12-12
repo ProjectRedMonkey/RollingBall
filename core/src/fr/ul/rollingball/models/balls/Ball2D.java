@@ -35,4 +35,13 @@ public class Ball2D extends Ball {
     public void draw(ModelBatch modelBatch) {
 
     }
+
+    @Override
+    public boolean isGrand() {
+        if(getRayon() == getRayonGrand()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

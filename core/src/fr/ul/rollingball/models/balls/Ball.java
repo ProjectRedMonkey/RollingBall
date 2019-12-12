@@ -10,7 +10,7 @@ import fr.ul.rollingball.models.GameWorld;
 public abstract class Ball {
     private float rayonGrand = 80/50.0f;
     private float rayonPetit = 80/100.0f;
-    private float rayon;
+    private float rayon = 80/50.0f;
     private Body body;
     private FixtureDef fixtureDef;
     private BodyDef bodyDef;
@@ -28,7 +28,6 @@ public abstract class Ball {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
 
         body = gameWorld.getWorld().createBody(bodyDef);
-        rayon = rayonGrand;
 
         CircleShape circle = new CircleShape();
         circle.setRadius(rayon);
@@ -96,14 +95,13 @@ public abstract class Ball {
      * Change la taille de la bille selon sa taille actuelle
      */
     public void changeSize(){
-        if(rayon == rayonGrand){
+        if(isGrand()){
             rayon = rayonPetit;
         }else{
             rayon = rayonGrand;
         }
         Shape shape = body.getFixtureList().first().getShape();
         shape.setRadius(rayon);
-
     }
 
     /**
@@ -137,5 +135,19 @@ public abstract class Ball {
     }
 
     public abstract void draw(ModelBatch modelBatch);
+
+    public float getRayonGrand() {
+        return rayonGrand;
+    }
+
+    public float getRayonPetit() {
+        return rayonPetit;
+    }
+
+    public void resetSize(){
+        rayon = rayonGrand;
+    }
+
+    public abstract boolean isGrand();
 }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import fr.ul.rollingball.dataFactories.SoundFactory;
 import fr.ul.rollingball.models.balls.Ball;
 import fr.ul.rollingball.models.balls.Ball2D;
 import fr.ul.rollingball.models.balls.Ball3D;
@@ -26,6 +27,7 @@ public class GameWorld {
     private boolean ball = false;
     private boolean tampon = true;
     private ModelBatch modelBatch;
+    private boolean grand;
 
     /**
      * Représente le monde dans lequel on joue
@@ -50,6 +52,9 @@ public class GameWorld {
                 }
                 if(pastilleFixture.getBody().getUserData() instanceof Pastille){
                     ((Pastille) pastilleFixture.getBody().getUserData()).setPicked(true);
+                }
+                if(pastilleFixture.getBody().getUserData() == "M"){
+                    SoundFactory.getInstance().playRebond(5);
                 }
             }
 
@@ -98,14 +103,22 @@ public class GameWorld {
         maze.draw(spriteBatch);
         if(ball) {
             if(ball2D instanceof Ball3D) {
+                grand = ball2D.isGrand();
                 world.destroyBody(ball2D.getBody());
                 ball2D = new Ball2D(this, ball2D.getPosition());
+                if(!grand){
+                    ball2D.changeSize();
+                }
             }
             ball2D.draw(spriteBatch);
         }else{
             if(ball2D instanceof Ball2D) {
+                grand = ball2D.isGrand();
                 world.destroyBody(ball2D.getBody());
-                ball2D = new Ball3D(this, ball2D.getPosition());
+                ball2D = new Ball3D(this, ball2D.getPosition(), grand);
+                if(!grand){
+                    ((Ball3D) ball2D).changeBody();
+                }
             }
             modelBatch.begin(gameScreen.getCamera());
             ball2D.draw(modelBatch);

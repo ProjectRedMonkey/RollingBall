@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.ObjLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Shape;
 import fr.ul.rollingball.models.GameWorld;
 
 public class Ball3D extends Ball {
     private ModelInstance boule3D;
     private Environment envnt = new Environment();
     private float ancienY, ancienX;
+    private boolean grand;
 
 
     /**
@@ -23,9 +25,10 @@ public class Ball3D extends Ball {
      * @param gameWorld monde de la bille
      * @param position  position de la bille
      */
-    public Ball3D(GameWorld gameWorld, Vector2 position) {
+    public Ball3D(GameWorld gameWorld, Vector2 position, boolean grand) {
         super(gameWorld, position);
 
+        this.grand = grand;
         ModelLoader loader = new ObjLoader();
         Model modele = loader.loadModel(Gdx.files.internal("models/sphere.obj"));
         boule3D = new ModelInstance(modele,position.x, position.y ,-50.f);
@@ -46,6 +49,10 @@ public class Ball3D extends Ball {
         );
         ancienY = getPosition().y;
         ancienX = getPosition().x;
+
+        if(!grand){
+            boule3D.transform.scale(0.5f, 0.5f, 0.5f);
+        }
     }
 
     /**
@@ -70,5 +77,36 @@ public class Ball3D extends Ball {
 
         modelBatch.render(boule3D, envnt);
 
+    }
+
+    @Override
+    public void changeSize() {
+        super.changeSize();
+        if(grand){
+            boule3D.transform.scale(0.5f, 0.5f, 0.5f);
+            grand = false;
+        }else{
+            boule3D.transform.scale(2f, 2f, 2f);
+            grand = true;
+        }
+    }
+
+    public void changeBody(){
+        Shape shape = getBody().getFixtureList().first().getShape();
+        shape.setRadius(getRayonPetit());
+        grand = false;
+    }
+
+    @Override
+    public void resetSize() {
+        super.resetSize();
+        if(getRayon() == getRayonGrand() && !grand){
+            boule3D.transform.scale(2f, 2f, 2f);
+            grand = true;
+        }
+    }
+
+    public boolean isGrand() {
+        return grand;
     }
 }

@@ -12,6 +12,7 @@ public class SoundFactory {
     private Music alerte;
     private Music defaite;
     private Music fond;
+    private Sound rebond;
 
     /**
      * Regroupe tous les sons
@@ -24,6 +25,7 @@ public class SoundFactory {
         alerte = Gdx.audio.newMusic(Gdx.files.internal("sounds/alerte.mp3"));
         defaite = Gdx.audio.newMusic(Gdx.files.internal("sounds/perte.mp3"));
         fond = Gdx.audio.newMusic(Gdx.files.internal("sounds/fond.mp3"));
+        rebond = Gdx.audio.newSound(Gdx.files.internal("sounds/collision.wav"));
     }
 
     /**
@@ -86,5 +88,9 @@ public class SoundFactory {
         fond.setVolume(volume/100);
         fond.setLooping(true);
         fond.play();
+    }
+
+    public void playRebond(float volume){
+        rebond.play(volume/100);
     }
 }

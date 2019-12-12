@@ -228,6 +228,7 @@ public class Maze {
         billeTrouvee = false;
         loadLaby(listePastille);
         gameWorld.getBall2D().setPosition(positionInitialeBille);
+        gameWorld.getBall2D().resetSize();
     }
 
     /**
